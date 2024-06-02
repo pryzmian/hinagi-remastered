@@ -94,7 +94,7 @@ export default class PlayCommand extends Command {
             voiceChannelId: voice.channelId!,
             textChannelId: ctx.channelId!,
             selfDeaf: true,
-            volume: 100
+            volume: 50
         });
 
         const { loadType, playlist, tracks } = await player.search({ query }, author);
