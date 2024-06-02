@@ -1,0 +1,5 @@
+.eslintrc.json
+seyfert.config.js
+node_modules/
+dist/
+parser/
