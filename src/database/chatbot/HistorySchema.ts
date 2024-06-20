@@ -18,4 +18,4 @@ const ChatBotHistory = new Schema<ChatHistoryDocument>({
 
 const ChatHistoryModel = model<ChatHistoryDocument>('ChatBotHistory', ChatBotHistory);
 
-export { ChatHistoryModel, ChatHistoryDocument };
+export { ChatHistoryModel, type ChatHistoryDocument };
