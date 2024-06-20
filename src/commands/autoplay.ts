@@ -11,6 +11,7 @@ const options = {
 @Declare({
     name: 'autoplay',
     description: 'Activate or deactivate the autoplay feature.',
+    aliases: ['ap'],
     integrationTypes: ['GuildInstall'],
     contexts: ['Guild']
 })

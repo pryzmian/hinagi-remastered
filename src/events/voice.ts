@@ -7,19 +7,19 @@ export default createEvent({
     run: async ([state, oldState], client, shardId) => {
         if (!oldState?.channelId) return;
 
-        // Leave voice channel if the bot is alone
+        // Leave voice channel when empty
+        const player = client.manager.getPlayer(oldState.guildId);
+        if (!player) return;
 
-        const channel = await client.channels.fetch(oldState.channelId);
+        const channel = await client.channels.fetch(player.voiceChannelId!);
         if (!channel.isVoice()) return;
 
         const members = await Promise.all((await channel.states()).map((x) => x.member()));
         const isVoiceChannelEmpty = members.filter(x => !x.user.bot).length === 0;
 
         if (isVoiceChannelEmpty) {
-            const player = client.manager.getPlayer(channel.guildId!);
-            if (!player) return;
-
-            await player.destroy('Voice channel is empty.');
+            client.logger.info(`Voice channel ${channel.id} is empty and the player is leaving.`);
+            await player.destroy('Empty voice channel.', true);
         }
     }
 });

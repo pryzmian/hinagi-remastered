@@ -22,4 +22,5 @@ module.exports = config.bot({
         commands: 'commands',
         components: 'components'
     },
+    debug: true
 });

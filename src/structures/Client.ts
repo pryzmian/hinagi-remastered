@@ -18,7 +18,23 @@ export class HinagiClient extends Client {
                 reply: () => true,
                 prefix: () => this.config.prefixes,
                 deferReplyResponse: ({ client }) => ({ content: `**${client.me?.username}** is thinking...` }),
-                argsParser: YunaParser()
+                argsParser: YunaParser(),
+                defaults: {
+                    async onOptionsError(context, metadata) {
+                        await context.editOrReply({
+                            embeds: [
+                                {
+                                    title: 'Invalid options provided!',
+                                    description: Object.entries(metadata)
+                                        .filter((_) => _[1].failed)
+                                        .map((error) => `\`${error[0]}\`: ${error[1].value}`)
+                                        .join('\n'),
+                                    color: 0x007cff
+                                }
+                            ]
+                        });
+                    }
+                }
             }
         });
 

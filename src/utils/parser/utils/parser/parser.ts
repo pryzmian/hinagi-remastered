@@ -1,4 +1,5 @@
-import type { Command, SubCommand } from "seyfert";
+import type { Command, Message, SubCommand } from "seyfert";
+import { APIApplicationCommandBasicOption, ApplicationCommandOptionType } from "discord-api-types/v10";
 import { YunaParserOptionsChoicesResolver } from "./choicesResolver";
 import {
     RemoveFromCheckNextChar,
@@ -59,8 +60,16 @@ export const YunaParser = (config: YunaParserCreateOptions = {}) => {
     const globalRegexes = createRegexes(config);
 
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: omitting this rule the life is better
-    return (content: string, command: Command | SubCommand): Record<string, string> => {
+    return (content: string, command: Command | SubCommand, message: Message): Record<string, string> => {
         const { options, config: commandConfig, regexes: commandRegexes, choicesOptions } = getYunaMetaDataFromCommand(config, command);
+
+        if (command.options?.length === 1 && (command.options as APIApplicationCommandBasicOption[])[0].type === ApplicationCommandOptionType.User) {
+            if (message.referencedMessage) {
+                return { [command.options[0]?.name]: message.mentions.users[1]?.id || message.mentions.users[0]?.id };
+            }
+
+            return { [command.options[0].name]: message.mentions.users[0]?.id };
+        }
 
         const realConfig = commandConfig ?? config;
 

@@ -32,6 +32,7 @@ const options = {
 
 @Declare({
     name: 'play',
+    aliases: ['p'],
     description: 'Play a song',
     integrationTypes: ['GuildInstall'],
     contexts: ['Guild']

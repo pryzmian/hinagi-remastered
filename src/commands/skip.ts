@@ -60,29 +60,16 @@ export default class ExampleCommand extends Command {
                 ]
             });
         
-        const isAutoplayEnabled = player.get<boolean>('enabledAutoplay');
-
-        if (isAutoplayEnabled)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'Autoplay is enabled, you cannot skip tracks when autoplay is enabled!',
-                        color: client.config.color
-                    }
-                ]
-            });
-        
-        if (!player.queue.tracks.length)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'There are no tracks currently playing and no tracks in the queue, try adding some tracks!',
-                        color: client.config.color
-                    }
-                ]
-            });
+        // if (!player.queue.tracks.length)
+        //     return ctx.editOrReply({
+        //         flags: MessageFlags.Ephemeral,
+        //         embeds: [
+        //             {
+        //                 description: 'There are no tracks currently playing and no tracks in the queue, try adding some tracks!',
+        //                 color: client.config.color
+        //             }
+        //         ]
+        //     });
 
         if (position && position > player.queue.tracks.length)
             return ctx.editOrReply({
@@ -110,7 +97,7 @@ export default class ExampleCommand extends Command {
             await player.skip(position);
             await ctx.editOrReply({ embeds: [{ description: `Skipped **${position}* tracks*!`, color: EmbedColors.Green }] });
         } else {
-            await player.skip();
+            await player.skip(undefined, false);
             await ctx.editOrReply({ embeds: [{ description: 'Skipped the current song!', color: EmbedColors.Green }] });
         }
     }

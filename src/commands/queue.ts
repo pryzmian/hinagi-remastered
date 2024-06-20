@@ -5,6 +5,7 @@ import { EmbedPaginator } from '../structures/Paginator';
 @Declare({
     name: 'queue',
     description: 'Displays the current queue.',
+    aliases: ['q'],
     integrationTypes: ['GuildInstall'],
     contexts: ['Guild']
 })

@@ -52,30 +52,17 @@ export default class SkipButton extends ComponentCommand {
                     }
                 ]
             });
-        
-        // const isAutoplayEnabled = player.get<boolean>('enabledAutoplay');
 
-        // if (isAutoplayEnabled)
+        // if (!player.queue.tracks.length)
         //     return ctx.editOrReply({
         //         flags: MessageFlags.Ephemeral,
         //         embeds: [
         //             {
-        //                 description: 'Autoplay is enabled, you cannot skip tracks when autoplay is enabled!',
+        //                 description: 'There are no tracks in the queue to skip!',
         //                 color: client.config.color
         //             }
         //         ]
         //     });
-
-        if (!player.queue.tracks.length)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'There are no tracks in the queue to skip!',
-                        color: client.config.color
-                    }
-                ]
-            });
 
         if (!player.playing && player.paused)
             return ctx.editOrReply({
@@ -89,6 +76,6 @@ export default class SkipButton extends ComponentCommand {
             });
 
         await ctx.interaction.deferUpdate();
-        await player.skip();
+        await player.skip(undefined, false);
     }
 }
