@@ -35,13 +35,14 @@
   "homepage": "https://github.com/Fnxi/nikobot#readme",
   "dependencies": {
     "@google/generative-ai": "0.3.1",
-    "discord-api-types": "^0.37.87",
+    "discord-api-types": "^0.37.90",
     "dotenv": "16.4.5",
     "lavalink-client": "github:tomato6966/lavalink-client",
     "mongoose": "8.2.4",
     "nekos.life": "^3.0.0",
     "seyfert": "github:tiramisulabs/seyfert",
-    "tsc-watch": "6.2.0"
+    "tsc-watch": "6.2.0",
+    "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert#dev"
   },
   "devDependencies": {
     "@types/config": "3.3.4",
