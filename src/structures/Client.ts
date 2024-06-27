@@ -1,8 +1,11 @@
 import { Client } from 'seyfert';
+import { Yuna } from 'yunaforseyfert';
+
+import { HandleCommand } from 'seyfert/lib/commands/handle';
+
 import type { HinagiConfig } from '../config';
 import { Configuration } from '../config';
 
-import { YunaParser } from '../utils/parser';
 import { Manager } from './Manager';
 import { HinagiMiddlewares } from '../middlewares';
 
@@ -19,7 +22,6 @@ export class HinagiClient extends Client {
                 reply: () => true,
                 prefix: () => this.config.prefixes,
                 deferReplyResponse: ({ client }) => ({ content: `**${client.me?.username}** is thinking...` }),
-                argsParser: YunaParser(),
                 defaults: {
                     async onOptionsError(context, metadata) {
                         await context.editOrReply({
@@ -40,11 +42,16 @@ export class HinagiClient extends Client {
         });
 
         this.manager = new Manager(this);
-
         this.run();
     }
 
     public async run(): Promise<void> {
+        this.setServices({
+            handleCommand: class extends HandleCommand {
+                argsParser = Yuna.parser();
+            }
+        });
+
         await this.start();
         await this.uploadCommands();
         await this.manager.load();

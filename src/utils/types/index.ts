@@ -2,7 +2,7 @@ import type { CommandContext, ComponentContext, MenuCommandContext, MessageComma
 import type { HinagiClient } from '../../structures/Client';
 import type { HinagiMiddlewares } from '../../middlewares';
 
-export { AllLavaEvents, LavaEventRun, LavaEventType, LavaManagerEvents, LavaNodeEvents, LavalinkEvent } from './client/Lavalink';
+export { AllLavaEvents, LavaEventRun, LavaEventType, LavalinkEvent } from './client/Lavalink';
 
 export type AnyContext =
     | CommandContext

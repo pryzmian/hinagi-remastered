@@ -10,11 +10,11 @@ export class Handler extends BaseHandler {
 
     async load() {
         const eventsDir = resolve('dist', 'lavalink');
-        const files = await this.loadFilesK<Lavalink>(await this.getFiles(eventsDir));
+        const files = await this.loadFilesK<{ default: Lavalink }>(await this.getFiles(eventsDir));
 
         for await (const file of files) {
             const path = file.path.split(process.cwd()).slice(1).join(process.cwd());
-            const event: Lavalink = file.file;
+            const event: Lavalink = file.file.default;
 
             if (!event || !(event instanceof Lavalink)) {
                 this.logger.warn(`${path} doesn't export by \`export default new Lavalink({ ... })\``);
