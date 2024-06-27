@@ -23,7 +23,7 @@ export const Configuration: HinagiConfig = {
         previous: '<:previous:1223972675983249408>',
         pause: '<:pause:1223972673785299014>',
         next: '<:next:1223972671738609676>',
-        stop: '<:stop:1230898078601449483>',
+        stop: '<:stop:1230898078601449483>'
     },
     nodes: [
         {

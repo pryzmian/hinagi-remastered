@@ -1,7 +1,7 @@
 import type { CommandContext, ComponentContext, MenuCommandContext, MessageCommandInteraction, ModalContext, ParseClient, UserCommandInteraction } from 'seyfert';
 import type { HinagiClient } from '../../structures/Client';
 
-export { AllLavaEvents, LavaEventRun, LavaEventType, LavaManagerEvents, LavaNodeEvents, LavalinkEvent } from './client/Lavalink';
+export { AllLavaEvents, LavaEventRun, LavaEventType, LavalinkEvent } from './client/Lavalink';
 
 export type AnyContext =
     | CommandContext
