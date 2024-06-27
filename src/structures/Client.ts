@@ -1,5 +1,5 @@
 import { Client } from 'seyfert';
-import { Yuna } from 'yunaforseyfert';
+import { YunaParser } from 'yunaforseyfert';
 
 import { HandleCommand } from 'seyfert/lib/commands/handle';
 
@@ -47,16 +47,11 @@ export class HinagiClient extends Client {
 
     public async run(): Promise<void> {
         this.setServices({
-            handleCommand: class extends HandleCommand {
-                argsParser = Yuna.parser();
-            }
+            middlewares: HinagiMiddlewares
         });
-
+        
         await this.start();
         await this.uploadCommands();
         await this.manager.load();
-        this.setServices({
-            middlewares: HinagiMiddlewares
-        })
     }
 }

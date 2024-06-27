@@ -33,7 +33,8 @@
         "lavalink-client": "github:tomato6966/lavalink-client",
         "mongoose": "8.2.4",
         "nekos.life": "3.0.0",
-        "seyfert": "1.5.0"
+        "seyfert": "github:tiramisulabs/seyfert",
+        "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert#dev"
     },
     "devDependencies": {
         "@types/config": "3.3.4",
