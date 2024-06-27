@@ -11,6 +11,7 @@ export interface HinagiConfig {
         pause: string;
         next: string;
         stop: string;
+        queue: string;
     };
 }
 
@@ -24,6 +25,7 @@ export const Configuration: HinagiConfig = {
         pause: '<:pause:1223972673785299014>',
         next: '<:next:1223972671738609676>',
         stop: '<:stop:1230898078601449483>',
+        queue: '<:queue:1231066304782274645>'
     },
     nodes: [
         {

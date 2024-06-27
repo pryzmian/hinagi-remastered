@@ -1,6 +1,6 @@
 import { BaseHandler } from 'seyfert/lib/common';
 import type { UsingClient } from 'seyfert';
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { Lavalink } from './Lavalink';
 
 export class Handler extends BaseHandler {
@@ -26,6 +26,7 @@ export class Handler extends BaseHandler {
                 continue;
             }
 
+            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
             const run = (...args: any) => event.run(this.client, ...args);
 
             if (event.isNode()) this.client.manager.nodeManager.on(event.name, run);

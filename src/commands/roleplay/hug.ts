@@ -1,4 +1,4 @@
-import { Command, CommandContext, Declare, Options, createUserOption } from 'seyfert';
+import { Command, type CommandContext, Declare, Options, createUserOption } from 'seyfert';
 import NekosClient from 'nekos.life';
 
 const options = {
@@ -22,7 +22,7 @@ export default class HugCommand extends Command {
 
         const nekoClient = new NekosClient();
 
-        const member = await client.members.fetch(guildId!, user.id);
+        const member = await client.members.fetch(guildId as string, user.id);
         if (!member)
             return ctx.editOrReply({
                 embeds: [

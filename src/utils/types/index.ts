@@ -1,5 +1,6 @@
-import type { CommandContext, ComponentContext, MenuCommandContext, MessageCommandInteraction, ModalContext, ParseClient, UserCommandInteraction } from 'seyfert';
+import type { CommandContext, ComponentContext, MenuCommandContext, MessageCommandInteraction, ModalContext, ParseClient, ParseMiddlewares, UserCommandInteraction } from 'seyfert';
 import type { HinagiClient } from '../../structures/Client';
+import type { HinagiMiddlewares } from '../../middlewares';
 
 export { AllLavaEvents, LavaEventRun, LavaEventType, LavaManagerEvents, LavaNodeEvents, LavalinkEvent } from './client/Lavalink';
 
@@ -15,4 +16,5 @@ declare module 'seyfert' {
     }
 
     interface UsingClient extends ParseClient<HinagiClient> { }
+    interface RegisteredMiddlewares extends ParseMiddlewares<typeof HinagiMiddlewares> {}
 }

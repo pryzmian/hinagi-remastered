@@ -1,5 +1,5 @@
 import { createEvent } from 'seyfert';
-import { HarmCategory, HarmBlockThreshold, GoogleGenerativeAI, Content, Part } from '@google/generative-ai';
+import { HarmCategory, HarmBlockThreshold, GoogleGenerativeAI, type Content, type Part } from '@google/generative-ai';
 import { extractPrompt } from '../utils/functions/extractPrompt';
 import { getChatHistory } from '../utils/functions/getChatHistory';
 
@@ -10,7 +10,7 @@ const getResponses = (username: string) => [
     `Hey ${username}, how you doing? How can I help you today?`
 ];
 
-const chunkText = (text: string, size: number = 2000): string[] => {
+const chunkText = (text: string, size: number): string[] => {
     const chunks: string[] = [];
     for (let i = 0; i < text.length; i += size) {
         chunks.push(text.substring(i, i + size));
@@ -38,7 +38,7 @@ export default createEvent({
 
         const chatHistory = await getChatHistory(message.guildId);
 
-        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
+        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY as string);
         const model = genAI.getGenerativeModel({
             model: 'gemini-pro',
             safetySettings: [
@@ -65,7 +65,7 @@ export default createEvent({
         const text = result.response.text();
 
         if (!text.length) {
-            return message.reply({ content: "I'm sorry, I didn't understand that. Can you try again?" });
+            return message.reply({ content: "I'm sorry, I did\'nt quite get that, could you try again?" })
         }
 
         chatHistory.history.push(
@@ -74,7 +74,7 @@ export default createEvent({
         );
         await chatHistory.save();
 
-        for (const chunk of chunkText(text)) {
+        for (const chunk of chunkText(text, 2000)) {
             await message.reply({ content: chunk });
         }
     }

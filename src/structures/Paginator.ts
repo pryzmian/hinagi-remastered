@@ -1,6 +1,6 @@
 import { type APIButtonComponentWithCustomId, ButtonStyle, ComponentType, MessageFlags } from 'discord-api-types/v10';
 import { ActionRow, Button, type Embed, type Message, type WebhookMessage } from 'seyfert';
-import { type InteractionCreateBodyRequest, type InteractionMessageUpdateBodyRequest } from 'seyfert/lib/common/index.js';
+import type { InteractionCreateBodyRequest, InteractionMessageUpdateBodyRequest } from 'seyfert/lib/common/index.js';
 import type { AnyContext } from '../utils/types';
 
 export class EmbedPaginator {
@@ -128,7 +128,7 @@ export class EmbedPaginator {
         return this;
     }
 
-    public async reply(ephemeral: boolean = false): Promise<this> {
+    public async reply(ephemeral?: boolean): Promise<this> {
         const { ctx, pages, embeds } = this;
 
         const flags = ephemeral ? MessageFlags.Ephemeral : undefined;

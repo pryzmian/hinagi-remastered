@@ -4,6 +4,7 @@ import { Configuration } from '../config';
 
 import { YunaParser } from '../utils/parser';
 import { Manager } from './Manager';
+import { HinagiMiddlewares } from '../middlewares';
 
 export class HinagiClient extends Client {
     readonly manager: Manager;
@@ -47,5 +48,8 @@ export class HinagiClient extends Client {
         await this.start();
         await this.uploadCommands();
         await this.manager.load();
+        this.setServices({
+            middlewares: HinagiMiddlewares
+        })
     }
 }

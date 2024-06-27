@@ -1,7 +1,8 @@
 import { MessageFlags } from 'discord-api-types/v10';
 import type { ComponentContext } from 'seyfert';
-import { ComponentCommand } from 'seyfert';
+import { ComponentCommand, Middlewares } from 'seyfert';
 
+@Middlewares(['checkVoiceChannel', 'checkQueue'])
 export default class SkipButton extends ComponentCommand {
     componentType = 'Button' as const;
 
@@ -10,69 +11,21 @@ export default class SkipButton extends ComponentCommand {
     }
 
     async run(ctx: ComponentContext<typeof this.componentType>) {
-        const { client, member } = ctx;
+        const { client, guildId, interaction } = ctx;
 
-        const me = ctx.me();
-        if (!me) return;
+        const player = client.manager.getPlayer(guildId!);
+        const messageId = player.get('messageId') ?? '';
 
-        const voice = member?.voice();
-        const bot = me.voice();
-
-        if (!voice)
-            return ctx.editOrReply({
+        if (interaction.message.id !== messageId)
+            return await ctx.interaction.editOrReply({
                 flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'You need to be in a voice channel to play music!',
-                        color: client.config.color
-                    }
-                ]
+                content: '❌ This track is no longer in the queue.'
             });
 
-        if (bot && voice.channelId !== bot.channelId)
+        if (player.paused)
             return ctx.editOrReply({
                 flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'You need to be in the same voice channel as me to play music!',
-                        color: client.config.color
-                    }
-                ]
-            });
-
-        const player = client.manager.getPlayer(ctx.guildId!);
-        
-        if (!player)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'There are no tracks currently playing and no tracks in the queue, try adding some tracks!',
-                        color: client.config.color
-                    }
-                ]
-            });
-
-        // if (!player.queue.tracks.length)
-        //     return ctx.editOrReply({
-        //         flags: MessageFlags.Ephemeral,
-        //         embeds: [
-        //             {
-        //                 description: 'There are no tracks in the queue to skip!',
-        //                 color: client.config.color
-        //             }
-        //         ]
-        //     });
-
-        if (!player.playing && player.paused)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'You need to resume the player first before skipping to the next track',
-                        color: client.config.color
-                    }
-                ]
+                content: '❌ You need to resume the player first before skipping to the next track'
             });
 
         await ctx.interaction.deferUpdate();

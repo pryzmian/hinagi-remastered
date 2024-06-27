@@ -21,14 +21,15 @@ export default new Lavalink({
         const row = new ActionRow<Button>().addComponents(
             new Button().setCustomId('previous-button').setEmoji(client.config.emojis.previous).setStyle(ButtonStyle.Secondary),
             new Button().setCustomId('pause-button').setEmoji(client.config.emojis.pause).setStyle(ButtonStyle.Secondary),
-            new Button().setCustomId('skip-button').setEmoji(client.config.emojis.next).setStyle(ButtonStyle.Secondary)
+            new Button().setCustomId('skip-button').setEmoji(client.config.emojis.next).setStyle(ButtonStyle.Secondary),
+            new Button().setCustomId('queue-button').setEmoji(client.config.emojis.queue).setStyle(ButtonStyle.Secondary)
         );
 
         const embed = new Embed()
             .setColor(client.config.color)
             .setAuthor({
                 name: (track.requester as User).tag || 'Unknown User',
-                iconUrl: (track.requester as User).avatarURL()
+                iconUrl: (track.requester as User).avatarURL() 
             })
             .setDescription(`**Now playing ♪**\n[**${track.info.title}**](${track.info.uri})`)
             .setThumbnail(track.info.artworkUrl ?? '');

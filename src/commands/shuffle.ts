@@ -1,4 +1,4 @@
-import { Command, CommandContext, Declare, Options, createStringOption } from 'seyfert';
+import { Command, type CommandContext, Declare, Options, createStringOption } from 'seyfert';
 import type { RepeatMode } from 'lavalink-client';
 import { MessageFlags } from 'discord-api-types/v10';
 import { EmbedColors } from 'seyfert/lib/common';
@@ -43,7 +43,7 @@ export default class ShuffleCommand extends Command {
                 ]
             });
 
-        const player = client.manager.getPlayer(ctx.guildId!);
+        const player = client.manager.getPlayer(ctx.guildId as string);
         if (!player)
             return ctx.editOrReply({
                 flags: MessageFlags.Ephemeral,

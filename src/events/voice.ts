@@ -4,21 +4,19 @@ export default createEvent({
     data: {
         name: 'voiceStateUpdate'
     },
-    run: async ([state, oldState], client, shardId) => {
-        if (!oldState?.channelId) return;
+    run: async ([newState, oldState], client, _shardId) => {
+        
+        const { channelId, guildId } = newState || oldState;
+        const stateChannel = await client.channels.fetch(channelId as string);
 
-        // Leave voice channel when empty
-        const player = client.manager.getPlayer(oldState.guildId);
-        if (!player) return;
+        if (!stateChannel.is(['GuildVoice', 'GuildStageVoice'])) return;
 
-        const channel = await client.channels.fetch(player.voiceChannelId!);
-        if (!channel.isVoice()) return;
+        // Check if voice channel is empty
+        const members = await Promise.all((await stateChannel.states()).map((x) => x.member()));
+        const isVoiceChannelEmpty = members.filter((x) => !x.user.bot).length === 0;
+        const player = client.manager.getPlayer(guildId);
 
-        const members = await Promise.all((await channel.states()).map((x) => x.member()));
-        const isVoiceChannelEmpty = members.filter(x => !x.user.bot).length === 0;
-
-        if (isVoiceChannelEmpty) {
-            client.logger.info(`Voice channel ${channel.id} is empty and the player is leaving.`);
+        if (player && isVoiceChannelEmpty) {
             await player.destroy('Empty voice channel.', true);
         }
     }

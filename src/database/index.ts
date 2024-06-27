@@ -5,7 +5,7 @@ import type { UsingClient } from 'seyfert';
 export async function connectToDatabase(client: UsingClient): Promise<Mongoose | undefined> {
     try {
         client.logger.info('Successfully connected to the database');
-        return await connect(process.env.DATABASE_URI!, {
+        return await connect(process.env.DATABASE_URI as string, {
             dbName: 'nikobot'
         });
     } catch (error) {
