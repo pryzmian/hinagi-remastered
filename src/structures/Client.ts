@@ -1,11 +1,12 @@
 import { Client } from 'seyfert';
 import { Yuna } from 'yunaforseyfert';
 
+import { HandleCommand } from 'seyfert/lib/commands/handle';
+
 import type { HinagiConfig } from '../config';
 import { Configuration } from '../config';
 
 import { Manager } from './Manager';
-import { HandleCommand } from 'seyfert/lib/commands/handle';
 
 export class HinagiClient extends Client {
     readonly manager: Manager;
