@@ -1,4 +1,3 @@
-import { MessageFlags } from 'discord-api-types/v10';
 import { Command, Declare, type CommandContext, Embed } from 'seyfert';
 import { EmbedPaginator } from '../structures/Paginator';
 import { parseTime } from '../utils/functions/parseTime';
@@ -10,6 +9,7 @@ import { parseTime } from '../utils/functions/parseTime';
     integrationTypes: ['GuildInstall'],
     contexts: ['Guild']
 })
+
 export default class AutoplayCommand extends Command {
     async run(ctx: CommandContext) {
         const { client } = ctx;
@@ -32,6 +32,7 @@ export default class AutoplayCommand extends Command {
                         .setDescription(
                             `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.slice(0, tracksPerPage).join('\n')}`
                         )
+                        .setFooter({ text: `Page 1/1 | ${tracks.length} tracks in total` })
                 ]
             });
         } else {
@@ -43,6 +44,7 @@ export default class AutoplayCommand extends Command {
                         .setDescription(
                             `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.slice(i, i + tracksPerPage).join('\n')}`
                         )
+                        .setFooter({ text: `Page ${Math.floor(i / tracksPerPage) + 1}/${Math.ceil(tracks.length / tracksPerPage)} | ${tracks.length} tracks in total` })
                 );
             }
 

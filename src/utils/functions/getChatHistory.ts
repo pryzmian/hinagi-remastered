@@ -1,4 +1,4 @@
-import { ChatHistoryDocument, ChatHistoryModel } from '../../database/chatbot/HistorySchema';
+import { type ChatHistoryDocument, ChatHistoryModel } from '../../database/chatbot/HistorySchema';
 
 /**
  * Retrieves the chat history for a guild.

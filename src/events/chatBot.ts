@@ -1,6 +1,6 @@
 import { createEvent } from 'seyfert';
 import { HarmCategory, HarmBlockThreshold, GoogleGenerativeAI, type Content, type Part } from '@google/generative-ai';
-import { extractPrompt } from '../utils/functions/extractPrompt';
+import extractPrompt from '../utils/functions/extractPrompt';
 import { getChatHistory } from '../utils/functions/getChatHistory';
 
 const getResponses = (username: string) => [

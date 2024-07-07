@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { Lavalink } from './Lavalink';
 
 export class Handler extends BaseHandler {
+    // biome-ignore lint/style/noParameterProperties: <explanation>
     constructor(private client: UsingClient) {
         super(client.logger);
     }
@@ -16,7 +17,7 @@ export class Handler extends BaseHandler {
             const path = file.path.split(process.cwd()).slice(1).join(process.cwd());
             const event: Lavalink = file.file.default;
 
-            if (!event || !(event instanceof Lavalink)) {
+            if (!(event && (event instanceof Lavalink))) {
                 this.logger.warn(`${path} doesn't export by \`export default new Lavalink({ ... })\``);
                 continue;
             }
@@ -26,7 +27,6 @@ export class Handler extends BaseHandler {
                 continue;
             }
 
-            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
             const run = (...args: any) => event.run(this.client, ...args);
 
             if (event.isNode()) this.client.manager.nodeManager.on(event.name, run);

@@ -34,12 +34,16 @@ const options = {
     aliases: ['p'],
     description: 'Play a song',
     integrationTypes: ['GuildInstall'],
+    props: {
+        usage: 'play <query>',
+        examples: ['play Never Gonna Give You Up', '/play https://open.spotify.com/track/3Bl4JMJGwjIoFZmD1r48P9?si=c56e4e8d4c8a4d63']
+    },
     contexts: ['Guild']
 })
 @Options(options)
 @Middlewares(['checkVoiceChannel', 'checkPermissions'])
-
 export default class PlayCommand extends Command {
+
     async run(ctx: CommandContext<typeof options>) {
         const { client, options, member, author } = ctx;
         const { query } = options;
@@ -62,41 +66,44 @@ export default class PlayCommand extends Command {
 
         switch (loadType) {
             case 'empty':
-            case 'error': {
-                if (!player.queue.current) await player.destroy();
+            case 'error':
+                {
+                    if (!player.queue.current) await player.destroy();
 
-                await ctx.editOrReply({
-                    content: `❌ I couldn't find any results for \`${query}\`!`,
-                });
-            }
+                    await ctx.editOrReply({
+                        content: `❌ I couldn't find any results for \`${query}\`!`
+                    });
+                }
                 break;
 
-            case 'playlist': {
-                if (!player.connected) await player.connect();
-                if (!playlist) return;
+            case 'playlist':
+                {
+                    if (!player.connected) await player.connect();
+                    if (!playlist) return;
 
-                await player.queue.add(tracks);
-                await ctx.editOrReply({
-                    content: `✅ Queued playlist [${playlist.title}](<${playlist.uri ?? query}>) with \`${tracks.length}\` songs!`
-                });
+                    await player.queue.add(tracks);
+                    await ctx.editOrReply({
+                        content: `✅ Queued playlist [${playlist.title}](<${playlist.uri ?? query}>) with \`${tracks.length}\` songs!`
+                    });
 
-                if (!player.playing) await player.play();
-            }
+                    if (!player.playing) await player.play();
+                }
                 break;
 
             case 'search':
-            case 'track': {
-                if (!player.connected) await player.connect();
+            case 'track':
+                {
+                    if (!player.connected) await player.connect();
 
-                const track = tracks[0];
+                    const track = tracks[0];
 
-                await player.queue.add(track);
-                await ctx.editOrReply({
-                    content: `✅ Queued [${tracks[0].info.title}](<${tracks[0].info.uri}>) by [${tracks[0].info.author}](<${tracks[0].info.uri}>)!`
-                });
+                    await player.queue.add(track);
+                    await ctx.editOrReply({
+                        content: `✅ Queued [${tracks[0].info.title}](<${tracks[0].info.uri}>) by [${tracks[0].info.author}](<${tracks[0].info.uri}>)!`
+                    });
 
-                if (!player.playing) await player.play();
-            }
+                    if (!player.playing) await player.play();
+                }
                 break;
         }
     }

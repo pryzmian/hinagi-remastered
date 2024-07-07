@@ -1,5 +1,10 @@
 import type { Player, Track } from 'lavalink-client';
 
+/**
+ * Function to handle autoplay logic for the player.
+ * @param player The player object.
+ * @param lastTrack The last played track.
+ */
 export async function autoPlayFunction(player: Player, lastTrack: Track) {
     if (!player.get<boolean | undefined>('enabledAutoplay')) return;
 

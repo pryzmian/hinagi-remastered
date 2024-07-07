@@ -4,7 +4,7 @@ import { EmbedPaginator } from '../structures/Paginator';
 import { parseTime } from '../utils/functions/parseTime';
 import { MessageFlags } from 'discord-api-types/v10';
 
-@Middlewares(['checkVoiceChannel', 'checkQueue'])
+@Middlewares(['checkVoiceChannel', 'checkQueueExists', 'checkQueueEmpty', 'checkTrackExists'])
 export default class QueueButton extends ComponentCommand {
     componentType = 'Button' as const;
 
@@ -13,16 +13,8 @@ export default class QueueButton extends ComponentCommand {
     }
 
     async run(ctx: ComponentContext<typeof this.componentType>) {
-        const { client, guildId, interaction } = ctx;
-
+        const { client, guildId } = ctx;
         const player = client.manager.getPlayer(guildId!);
-        const messageId = player.get('messageId') ?? '';
-
-        if (interaction.message.id !== messageId)
-            return await ctx.interaction.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                content: '❌ This track is no longer in the queue.'
-            });
 
         const tracksPerPage = 10;
         const tracks = player.queue.tracks.map(
@@ -34,13 +26,12 @@ export default class QueueButton extends ComponentCommand {
 
         if (tracks.length < tracksPerPage) {
             await ctx.editOrReply({
+                flags: MessageFlags.Ephemeral,
                 embeds: [
                     new Embed()
                         .setThumbnail(current?.info.artworkUrl ?? '')
                         .setColor(client.config.color)
-                        .setDescription(
-                            `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.length ? tracks.splice(0, tracksPerPage).join('\n') : 'No tracks in the queue. Add some tracks with `/play <song>'}`
-                        )
+                        .setDescription(`**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.length ? tracks.splice(0, tracksPerPage).join('\n') : 'No tracks in the queue. Add some tracks with `/play <song>'}`)
                 ]
             });
         } else {
@@ -49,9 +40,7 @@ export default class QueueButton extends ComponentCommand {
                     new Embed()
                         .setThumbnail(current?.info.artworkUrl ?? '')
                         .setColor(client.config.color)
-                        .setDescription(
-                            `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.slice(i, i + tracksPerPage).join('\n')}`
-                        )
+                        .setDescription(`**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.length ? tracks.splice(i, i + tracksPerPage).join('\n') : 'No tracks in the queue. Add some tracks with `/play <song>'}`)
                 );
             }
 

@@ -4,6 +4,10 @@ import { Command, Declare, type CommandContext } from 'seyfert';
 @Declare({
     name: 'ping',
     description: 'Check the bot\'s latency',
+    props: {
+        usage: 'ping',
+        examples: ['pong']
+    },
     integrationTypes: ['GuildInstall'],
     contexts: ['Guild']
 })

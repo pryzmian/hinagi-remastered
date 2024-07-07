@@ -1,9 +1,15 @@
 import { checkPermissions } from "./validators/permissionsValidator";
-import { checkQueue } from './validators/queueValidator';
+import { checkQueueExists, checkHistoryExists, checkQueueEmpty, checkQueueNotPlaying, checkTrackExists, checkAutoplayRequirements } from './validators/queueValidator';
 import { checkVoiceChannel } from "./validators/voiceValidator";
+import type { HinagiMiddlewaresType } from "../utils/types";
 
-export const HinagiMiddlewares = {
+export const HinagiMiddlewares: HinagiMiddlewaresType = {
     checkVoiceChannel,
-    checkQueue,
-    checkPermissions
+    checkPermissions,
+    checkQueueExists,
+    checkHistoryExists,
+    checkQueueEmpty,
+    checkQueueNotPlaying,
+    checkTrackExists,
+    checkAutoplayRequirements
 };

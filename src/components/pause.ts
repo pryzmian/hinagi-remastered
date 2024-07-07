@@ -2,7 +2,7 @@ import type { ComponentContext } from 'seyfert';
 import { ComponentCommand, Middlewares } from 'seyfert';
 import { MessageFlags } from 'seyfert/lib/types';
 
-@Middlewares(['checkVoiceChannel', 'checkQueue'])
+@Middlewares(['checkVoiceChannel', 'checkQueueExists', 'checkQueueEmpty', 'checkTrackExists'])
 export default class PauseButton extends ComponentCommand {
     componentType = 'Button' as const;
 

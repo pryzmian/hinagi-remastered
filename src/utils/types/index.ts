@@ -1,4 +1,4 @@
-import type { CommandContext, ComponentContext, MenuCommandContext, MessageCommandInteraction, ModalContext, ParseClient, ParseMiddlewares, UserCommandInteraction } from 'seyfert';
+import type { CommandContext, ComponentContext, ExtraProps, MenuCommandContext, MessageCommandInteraction, MiddlewareContext, ModalContext, ParseClient, ParseMiddlewares, UserCommandInteraction } from 'seyfert';
 import type { HinagiClient } from '../../structures/Client';
 import type { HinagiMiddlewares } from '../../middlewares';
 
@@ -9,6 +9,13 @@ export type AnyContext =
     | MenuCommandContext<MessageCommandInteraction | UserCommandInteraction>
     | ComponentContext
     | ModalContext;
+
+export type CommandProps = ExtraProps & {
+    usage: string;
+    examples: string[];
+}
+
+export type HinagiMiddlewaresType = { [key: string]: MiddlewareContext };
 
 declare module 'seyfert' {
     interface InternalOptions {

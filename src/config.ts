@@ -17,7 +17,7 @@ export interface HinagiConfig {
 
 export const Configuration: HinagiConfig = {
     color: 0x007cff,
-    prefixes: ['hina', 'h!', 'hinagi'],
+    prefixes: ['yoku', 'h!', 'hinagi'],
     emojis: {
         error: '',
         success: '',
@@ -32,7 +32,7 @@ export const Configuration: HinagiConfig = {
             id: 'Node 0',
             host: 'localhost',
             port: 2333,
-            authorization: 'ganyuontopuwu'
+            authorization: 'ganyuontopuwu',
         }
     ]
 };

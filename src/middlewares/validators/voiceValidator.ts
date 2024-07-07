@@ -15,16 +15,16 @@ export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, 
             flags: MessageFlags.Ephemeral
         });
 
-        return pass()
+        return pass();
     }
 
-    if (bot && voice && voice.channelId !== bot.channelId) {
+    if (bot && voice.channelId !== bot.channelId) {
         await context.editOrReply({
             content: `❌ You need to be in the same voice channel as me (${await bot.channel()}) to use this command!`,
             flags: MessageFlags.Ephemeral
         });
 
-        return pass()
+        return pass();
     }
 
     return next();

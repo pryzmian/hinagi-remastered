@@ -7,6 +7,7 @@ import { autoPlayFunction } from '../utils/functions/autoplay';
 export class Manager extends LavalinkManager {
     readonly handler: Handler;
 
+    // biome-ignore lint/style/noParameterProperties: <explanation>
     constructor(readonly client: UsingClient) {
         super({
             nodes: client.config.nodes,
@@ -27,7 +28,7 @@ export class Manager extends LavalinkManager {
         await this.handler.load();
     }
 
-    public async search(query: string) {
+    public search(query: string) {
         const node = this.nodeManager.leastUsedNodes()[0];
         return node.search(query, null);
     }
