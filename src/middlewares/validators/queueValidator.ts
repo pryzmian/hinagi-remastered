@@ -71,7 +71,7 @@ export const checkQueueNotPlaying = createMiddleware<void, ComponentContext<'But
     const { client } = context;
     const player = client.manager.getPlayer(context.guildId as string);
     
-    if (player && (!player.playing || player.paused)) {
+    if (player && !player.playing) {
         await context.editOrReply({
             flags: MessageFlags.Ephemeral,
             content: '❌ You cannot perform this action as the music playback is currently inactive!'

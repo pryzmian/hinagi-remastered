@@ -1,6 +1,4 @@
-import { MessageFlags } from 'discord-api-types/v10';
-import { Command, CommandContext, Declare, Options, createIntegerOption } from 'seyfert';
-import { EmbedColors } from 'seyfert/lib/common';
+import { Command, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from 'seyfert';
 
 const options = {
     volume: createIntegerOption({
@@ -18,75 +16,27 @@ const options = {
     contexts: ['Guild']
 })
 @Options(options)
+@Middlewares(['checkVoiceChannel', 'checkQueueExists', 'checkQueueEmpty'])
 export default class VolumeCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
-        const { client, options, member } = ctx;
+        const { client, options } = ctx;
         const { volume } = options;
 
-        const me = ctx.me();
-        if (!me) return;
-
-        const voice = member?.voice();
-        const bot = me.voice();
-
-        if (!voice)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'You need to be in a voice channel to play music!',
-                        color: client.config.color
-                    }
-                ]
-            });
-
-        if (bot && voice.channelId !== bot.channelId)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'You need to be in the same voice channel as me to play music!',
-                        color: client.config.color
-                    }
-                ]
-            });
-
         const player = client.manager.getPlayer(ctx.guildId!);
-        if (!player)
-            return ctx.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: 'There are no tracks currently playing and no tracks in the queue, try adding some tracks!',
-                        color: client.config.color
-                    }
-                ]
-            });
+        let response = `The volume has been set to \`${volume}\`.`;
 
         if (volume === 1) {
-            await player.pause();
-            await ctx.editOrReply({
-                embeds: [{
-                    description: 'The volume has been set to 1. Because of this, the player has been paused.',
-                    color: EmbedColors.Green
-                }]
-            });
+            await player.setVolume(volume).then(async () => await player.pause());
+
+            response += '\nBecause of this, the player has been paused.';
         } else if (volume > 1 && player.paused) {
             await player.resume();
-            await ctx.editOrReply({
-                embeds: [{
-                    description: `The volume has been set to ${volume}.`,
-                    color: EmbedColors.Green
-                }]
-            });
+            await player.setVolume(volume);
         }
 
         await player.setVolume(volume);
         await ctx.editOrReply({
-            embeds: [{
-                description: `The volume has been set to ${volume}.`,
-                color: EmbedColors.Green
-            }]
+            content: response
         });
     }
 }

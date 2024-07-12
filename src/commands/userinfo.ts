@@ -1,4 +1,4 @@
-import { Command, CommandContext, Declare, Options, createUserOption } from 'seyfert';
+import { Command, type CommandContext, Declare, Options, createUserOption } from 'seyfert';
 
 const options = {
     user: createUserOption({
@@ -23,23 +23,7 @@ export default class UserInfoCommand extends Command {
         
         const target = user ?? author;
         const member = await client.members.fetch(guildId!, target.id);
-        if (!target) {
-            await ctx.editOrReply({
-                embeds: [
-                    {
-                        author: {
-                            name: `${author.username}`,
-                            url: author.avatarURL() ?? undefined
-                        },
-                        thumbnail: {
-                            url: author.avatarURL() ?? undefined
-                        },
-                        description: `**ID**: ${author.id}\n**Tag**: ${author.tag}\n**Created**: ${author.createdAt.toUTCString()}`,
-                        color: 0x007cff
-                    }
-                ]
-            });
-        } else {
+        if (target) {
             await ctx.editOrReply({
                 embeds: [
                     {
@@ -51,6 +35,22 @@ export default class UserInfoCommand extends Command {
                             url: member.avatarURL() ?? undefined
                         },
                         description: `**ID**: ${member.id}\n**Tag**: ${member.tag}\n**Created**: ${member.createdAt.toUTCString()}`,
+                        color: 0x007cff
+                    }
+                ]
+            });
+        } else {
+            await ctx.editOrReply({
+                embeds: [
+                    {
+                        author: {
+                            name: `${author.username}`,
+                            url: author.avatarURL() ?? undefined
+                        },
+                        thumbnail: {
+                            url: author.avatarURL() ?? undefined
+                        },
+                        description: `**ID**: ${author.id}\n**Tag**: ${author.tag}\n**Created**: ${author.createdAt.toUTCString()}`,
                         color: 0x007cff
                     }
                 ]
