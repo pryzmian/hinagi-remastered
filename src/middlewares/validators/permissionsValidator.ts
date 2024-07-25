@@ -3,7 +3,7 @@ import { createMiddleware } from "seyfert";
 
 export const checkPermissions = createMiddleware<void>(async ({ context, next, pass }) => {
     const { client, member } = context;
-    
+
     const me = context.me();
     if (!me) return;
 
@@ -11,12 +11,12 @@ export const checkPermissions = createMiddleware<void>(async ({ context, next, p
     const bot = context.me()?.voice();
 
     const permissions = await client.channels.memberPermissions(voice?.channelId!, me);
-    const missings = permissions.keys(permissions.missings(['Connect', 'Speak', 'ViewChannel', 'MoveMembers']));
+    const missings = permissions.keys(permissions.missings(["Connect", "Speak", "ViewChannel", "MoveMembers"]));
 
     if (missings.length) {
         await context.editOrReply({
             flags: MessageFlags.Ephemeral,
-            content: `❌ I am missing the following permissions to play music in ${await bot?.channel()}: ${missings.join(', ')}`
+            content: `❌ I am missing the following permissions to play music in ${await bot?.channel()}: ${missings.join(", ")}`,
         });
 
         return pass();

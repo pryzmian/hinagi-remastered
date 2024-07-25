@@ -1,4 +1,4 @@
-import { type ChatHistoryDocument, ChatHistoryModel } from '../../database/chatbot/HistorySchema';
+import { type ChatHistoryDocument, ChatHistoryModel } from "../../database/chatbot/HistorySchema";
 
 /**
  * Retrieves the chat history for a guild.
@@ -12,10 +12,10 @@ export async function getChatHistory(guildId: string): Promise<ChatHistoryDocume
         {
             $setOnInsert: {
                 guildId,
-                history: []
-            }
+                history: [],
+            },
         },
-        { new: true, upsert: true }
+        { new: true, upsert: true },
     );
 
     return chatHistory as ChatHistoryDocument;

@@ -1,18 +1,18 @@
-import { Command, CommandContext, Declare, Options, createUserOption } from 'seyfert';
-import NekosClient from 'nekos.life';
+import NekosClient from "nekos.life";
+import { Command, type CommandContext, Declare, Options, createUserOption } from "seyfert";
 
 const options = {
     user: createUserOption({
-        description: 'The user to pat.',
-        required: true
-    })
+        description: "The user to pat.",
+        required: true,
+    }),
 };
 
 @Declare({
-    name: 'pat',
-    description: 'Pat someone!',
-    integrationTypes: ['GuildInstall'],
-    contexts: ['Guild']
+    name: "pat",
+    description: "Pat someone!",
+    integrationTypes: ["GuildInstall"],
+    contexts: ["Guild"],
 })
 @Options(options)
 export default class PatCommand extends Command {
@@ -29,8 +29,8 @@ export default class PatCommand extends Command {
                     {
                         color: client.config.color,
                         description: `**${author.toString()}** I couldn't find that user. Sorry :(`,
-                    }
-                ]
+                    },
+                ],
             });
 
         return ctx.editOrReply({
@@ -39,11 +39,11 @@ export default class PatCommand extends Command {
                     color: client.config.color,
                     description: `**${author.toString()}** patted **${member.toString()}**!`,
                     image: {
-                        url: `${(await nekoClient.pat()).url}`
+                        url: `${(await nekoClient.pat()).url}`,
                     },
-                    timestamp: new Date().toISOString()
-                }
-            ]
+                    timestamp: new Date().toISOString(),
+                },
+            ],
         });
     }
 }

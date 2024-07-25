@@ -1,8 +1,8 @@
-import { LavalinkManager } from 'lavalink-client';
-import type { UsingClient } from 'seyfert';
-import { Handler } from './Handler';
+import { LavalinkManager } from "lavalink-client";
+import type { UsingClient } from "seyfert";
+import { Handler } from "./Handler";
 
-import { autoPlayFunction } from '../utils/functions/autoplay';
+import { autoPlayFunction } from "../utils/functions/autoplay";
 
 export class Manager extends LavalinkManager {
     readonly handler: Handler;
@@ -13,18 +13,18 @@ export class Manager extends LavalinkManager {
             nodes: client.config.nodes,
             sendToShard: (guildId, payload) => client.gateway.send(client.gateway.calculateShardId(guildId), payload),
             playerOptions: {
-                defaultSearchPlatform: 'spsearch',
+                defaultSearchPlatform: "spsearch",
                 onEmptyQueue: {
-                    autoPlayFunction
-                }
-            }
+                    autoPlayFunction,
+                },
+            },
         });
 
         this.handler = new Handler(client);
     }
 
     public async load() {
-        this.client.logger.info('LavalinkManager loaded');
+        this.client.logger.info("LavalinkManager loaded");
         await this.handler.load();
     }
 

@@ -1,7 +1,7 @@
-import { BaseHandler } from 'seyfert/lib/common';
-import type { UsingClient } from 'seyfert';
-import { resolve } from 'node:path';
-import { Lavalink } from './Lavalink';
+import { resolve } from "node:path";
+import type { UsingClient } from "seyfert";
+import { BaseHandler } from "seyfert/lib/common";
+import { Lavalink } from "./Lavalink";
 
 export class Handler extends BaseHandler {
     // biome-ignore lint/style/noParameterProperties: <explanation>
@@ -10,14 +10,14 @@ export class Handler extends BaseHandler {
     }
 
     async load() {
-        const eventsDir = resolve('dist', 'lavalink');
+        const eventsDir = resolve("dist", "lavalink");
         const files = await this.loadFilesK<{ default: Lavalink }>(await this.getFiles(eventsDir));
 
         for await (const file of files) {
             const path = file.path.split(process.cwd()).slice(1).join(process.cwd());
             const event: Lavalink = file.file.default;
 
-            if (!(event && (event instanceof Lavalink))) {
+            if (!(event && event instanceof Lavalink)) {
                 this.logger.warn(`${path} doesn't export by \`export default new Lavalink({ ... })\``);
                 continue;
             }
