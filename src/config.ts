@@ -17,7 +17,7 @@ export interface HinagiConfig {
 
 export const Configuration: HinagiConfig = {
     color: 0x007cff,
-    prefixes: ['yoku', 'h!', 'hinagi'],
+    prefixes: ['hina', 'h!', 'hinagi'],
     emojis: {
         error: '',
         success: '',
@@ -29,10 +29,10 @@ export const Configuration: HinagiConfig = {
     },
     nodes: [
         {
-            id: 'Node 0',
-            host: 'localhost',
-            port: 2333,
-            authorization: 'ganyuontopuwu',
+            id: 'Node Hinagi',
+            host: process.env.LAVALINK_HOST!,
+            port: Number(process.env.LAVALINK_PORT),
+            authorization: process.env.LAVALINK_AUTHORIZATION!
         }
     ]
 };

@@ -1,7 +1,3 @@
-//@ts-check
-
-require('dotenv/config');
-
 const { GatewayIntentBits } = require('discord-api-types/v10');
 const { config } = require('seyfert');
 

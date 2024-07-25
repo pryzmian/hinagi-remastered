@@ -18,11 +18,12 @@ const options = {
 @Options(options)
 export default class UserInfoCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
-        const { client, author, guildId, options } = ctx;
+        const { client, author, options } = ctx;
         const { user } = options;
         
         const target = user ?? author;
-        const member = await client.members.fetch(guildId!, target.id);
+        const member = await client.members.fetch(ctx.guildId as string, target.id);
+
         if (target) {
             await ctx.editOrReply({
                 embeds: [

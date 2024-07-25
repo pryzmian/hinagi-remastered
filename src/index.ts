@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import { Logger } from 'seyfert';
 import { HinagiClient } from './structures/Client';
 

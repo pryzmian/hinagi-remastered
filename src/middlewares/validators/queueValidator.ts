@@ -36,8 +36,9 @@ export const checkHistoryExists: MiddlewareContext = createMiddleware<void, Comp
 export const checkQueueEmpty = createMiddleware<void, ComponentContext<'Button'>>(async ({ context, next, pass }) => {
     const { client } = context;
     const player = client.manager.getPlayer(context.guildId as string);
-    
-    if (player && !player?.queue.tracks.length) {
+    const isAutoplay = player?.get<boolean>('enabledAutoplay') ?? false;
+
+    if (!(isAutoplay && player?.queue.tracks.length)) {
         await context.editOrReply({
             flags: MessageFlags.Ephemeral,
             content: '❌ You cannot perform this action as the queue is empty!'
