@@ -1,7 +1,7 @@
-import { type APIButtonComponentWithCustomId, ButtonStyle, ComponentType, MessageFlags } from 'discord-api-types/v10';
-import { ActionRow, Button, type Embed, type Message, type WebhookMessage } from 'seyfert';
-import type { InteractionCreateBodyRequest, InteractionMessageUpdateBodyRequest } from 'seyfert/lib/common/index.js';
-import type { AnyContext } from '../utils/types';
+import { type APIButtonComponentWithCustomId, ButtonStyle, ComponentType, MessageFlags } from "discord-api-types/v10";
+import { ActionRow, Button, type Embed, type Message, type WebhookMessage } from "seyfert";
+import type { InteractionCreateBodyRequest, InteractionMessageUpdateBodyRequest } from "seyfert/lib/common/index.js";
+import type { AnyContext } from "../utils/types";
 
 export class EmbedPaginator {
     private pages: Record<string, number> = {};
@@ -20,20 +20,20 @@ export class EmbedPaginator {
 
         const row = new ActionRow<Button>().addComponents(
             new Button()
-                .setLabel('Previous')
+                .setLabel("Previous")
                 .setStyle(ButtonStyle.Secondary)
-                .setCustomId('pagination-pagePrev')
+                .setCustomId("pagination-pagePrev")
                 .setDisabled(pages[userId] === 0),
             new Button()
                 .setLabel(`${this.currentPage}/${this.maxPages}`)
                 .setStyle(ButtonStyle.Primary)
                 .setDisabled(true)
-                .setCustomId('pagination-pagePos'),
+                .setCustomId("pagination-pagePos"),
             new Button()
-                .setLabel('Next')
+                .setLabel("Next")
                 .setStyle(ButtonStyle.Secondary)
-                .setCustomId('pagination-pageNext')
-                .setDisabled(pages[userId] === embeds.length - 1)
+                .setCustomId("pagination-pageNext")
+                .setDisabled(pages[userId] === embeds.length - 1),
         );
 
         return row;
@@ -55,9 +55,9 @@ export class EmbedPaginator {
                         embeds: [
                             {
                                 description: `Only the user: ${ctx.author.toString()} can use this.`,
-                                color: client.config.color
-                            }
-                        ]
+                                color: client.config.color,
+                            },
+                        ],
                     });
 
                     return false;
@@ -66,7 +66,7 @@ export class EmbedPaginator {
                 return true;
             },
             onStop: async (reason) => {
-                if (reason === 'idle') {
+                if (reason === "idle") {
                     if (!message) return;
 
                     const row = new ActionRow<Button>().setComponents(
@@ -75,19 +75,19 @@ export class EmbedPaginator {
                             .filter((row) => row.type === ComponentType.Button)
                             .map((component) => {
                                 return new Button(component as APIButtonComponentWithCustomId).setDisabled(true);
-                            })
+                            }),
                     );
 
                     await client.messages.edit(message.id, message.channelId, { components: [row] }).catch(() => null);
                 }
-            }
+            },
         });
 
-        collector.run(['pagination-pagePrev', 'pagination-pageNext'], async (interaction) => {
+        collector.run(["pagination-pagePrev", "pagination-pageNext"], async (interaction) => {
             if (!interaction.isButton()) return;
 
-            if (interaction.customId === 'pagination-pagePrev' && pages[userId] > 0) --pages[userId];
-            if (interaction.customId === 'pagination-pageNext' && pages[userId] < embeds.length - 1) ++pages[userId];
+            if (interaction.customId === "pagination-pagePrev" && pages[userId] > 0) --pages[userId];
+            if (interaction.customId === "pagination-pageNext" && pages[userId] < embeds.length - 1) ++pages[userId];
 
             await interaction.deferUpdate();
             await ctx.editOrReply({ embeds: [embeds[pages[userId]]], components: [this.getRow(userId)] }).catch(() => null);
@@ -110,8 +110,8 @@ export class EmbedPaginator {
     public setPage(page: number): this {
         const { message, embeds, pages, ctx } = this;
 
-        if (!embeds.length) throw new Error('I can\'t send the pagination without embeds.');
-        if (!message) throw new Error('I can\'t set the page to an unresponded pagination.');
+        if (!embeds.length) throw new Error("I can't send the pagination without embeds.");
+        if (!message) throw new Error("I can't set the page to an unresponded pagination.");
 
         if (page > embeds.length) throw new Error(`The page "${page}" exceeds the limit of "${embeds.length}" pages.`);
 
@@ -120,9 +120,9 @@ export class EmbedPaginator {
         pages[userId] = page - 1;
 
         ctx.editOrReply({
-            content: '',
+            content: "",
             embeds: [embeds[pages[userId]]],
-            components: [this.getRow(userId)]
+            components: [this.getRow(userId)],
         });
 
         return this;
@@ -138,12 +138,12 @@ export class EmbedPaginator {
 
         this.message = await ctx.editOrReply(
             {
-                content: '',
+                content: "",
                 embeds: [embeds[pages[userId]]],
                 components: [this.getRow(userId)],
-                flags
+                flags,
             },
-            true
+            true,
         );
 
         await this.createCollector();
@@ -153,7 +153,7 @@ export class EmbedPaginator {
 
     public async edit(body: InteractionCreateBodyRequest | InteractionMessageUpdateBodyRequest): Promise<this> {
         const { message, ctx } = this;
-        if (!message) throw new Error('I can\'t set the page to an unresponded pagination.');
+        if (!message) throw new Error("I can't set the page to an unresponded pagination.");
 
         await ctx.editOrReply(body);
 

@@ -5,14 +5,14 @@ export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, 
     const { member, me } = context;
 
     if (!me) return;
-    
+
     const voice = member?.voice();
     const bot = context.me()?.voice();
 
     if (!voice) {
         await context.editOrReply({
-            content: '❌ You need to be in a voice channel to use this command!',
-            flags: MessageFlags.Ephemeral
+            content: "❌ You need to be in a voice channel to use this command!",
+            flags: MessageFlags.Ephemeral,
         });
 
         return pass();
@@ -21,11 +21,11 @@ export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, 
     if (bot && voice.channelId !== bot.channelId) {
         await context.editOrReply({
             content: `❌ You need to be in the same voice channel as me (${await bot.channel()}) to use this command!`,
-            flags: MessageFlags.Ephemeral
+            flags: MessageFlags.Ephemeral,
         });
 
         return pass();
     }
 
     return next();
-})
+});

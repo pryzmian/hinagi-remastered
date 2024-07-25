@@ -1,4 +1,4 @@
-import type { LavalinkNodeOptions } from 'lavalink-client';
+import type { LavalinkNodeOptions } from "lavalink-client";
 
 export interface HinagiConfig {
     color: number;
@@ -17,22 +17,22 @@ export interface HinagiConfig {
 
 export const Configuration: HinagiConfig = {
     color: 0x007cff,
-    prefixes: ['hina', 'h!', 'hinagi'],
+    prefixes: ["hina", "h!", "hinagi"],
     emojis: {
-        error: '',
-        success: '',
-        previous: '<:previous:1223972675983249408>',
-        pause: '<:pause:1223972673785299014>',
-        next: '<:next:1223972671738609676>',
-        stop: '<:stop:1230898078601449483>',
-        queue: '<:queue:1231066304782274645>'
+        error: "",
+        success: "",
+        previous: "<:previous:1223972675983249408>",
+        pause: "<:pause:1223972673785299014>",
+        next: "<:next:1223972671738609676>",
+        stop: "<:stop:1230898078601449483>",
+        queue: "<:queue:1231066304782274645>",
     },
     nodes: [
         {
-            id: 'Node Hinagi',
+            id: "Node Hinagi",
             host: process.env.LAVALINK_HOST!,
             port: Number(process.env.LAVALINK_PORT),
-            authorization: process.env.LAVALINK_AUTHORIZATION!
-        }
-    ]
+            authorization: process.env.LAVALINK_AUTHORIZATION!,
+        },
+    ],
 };

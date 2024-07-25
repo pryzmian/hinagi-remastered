@@ -1,18 +1,18 @@
-import { Command, type CommandContext, Declare, Options, createUserOption } from 'seyfert';
-import NekosClient from 'nekos.life';
+import NekosClient from "nekos.life";
+import { Command, type CommandContext, Declare, Options, createUserOption } from "seyfert";
 
 const options = {
     user: createUserOption({
-        description: 'The user to kiss.',
-        required: true
-    })
+        description: "The user to kiss.",
+        required: true,
+    }),
 };
 
 @Declare({
-    name: 'kiss',
-    description: 'Kiss someone!',
-    integrationTypes: ['GuildInstall'],
-    contexts: ['Guild']
+    name: "kiss",
+    description: "Kiss someone!",
+    integrationTypes: ["GuildInstall"],
+    contexts: ["Guild"],
 })
 
 @Options(options)
@@ -23,25 +23,25 @@ export default class KissCommand extends Command {
 
         const nekoClient = new NekosClient();
 
-        const member = await client.members.fetch(guildId as string, user.id);
+        const member = await client.members.fetch(guildId!, user.id);
         if (!member)
             return ctx.editOrReply({
                 embeds: [
                     {
                         color: client.config.color,
                         description: `**${author.toString()}** I couldn't find that user. Sorry :(`,
-                    }
-                ]
+                    },
+                ],
             });
 
-        if (member.id === client.botId) 
+        if (member.id === client.botId)
             return ctx.editOrReply({
                 embeds: [
                     {
                         color: client.config.color,
                         description: `**${author.toString()}** You can't kiss me! 😳`,
-                    }
-                ]
+                    },
+                ],
             });
 
         if (member.id === author.id)
@@ -50,8 +50,8 @@ export default class KissCommand extends Command {
                     {
                         color: client.config.color,
                         description: `**${author.toString()}** You can't kiss yourself! 😳`,
-                    }
-                ]
+                    },
+                ],
             });
 
         return ctx.editOrReply({
@@ -60,11 +60,11 @@ export default class KissCommand extends Command {
                     color: client.config.color,
                     description: `**${author.toString()}** kissed **${member.toString()}**!`,
                     image: {
-                        url: `${(await nekoClient.kiss()).url}`
+                        url: `${(await nekoClient.kiss()).url}`,
                     },
-                    timestamp: new Date().toISOString()
-                }
-            ]
+                    timestamp: new Date().toISOString(),
+                },
+            ],
         });
     }
 }

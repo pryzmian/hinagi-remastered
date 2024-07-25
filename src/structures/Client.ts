@@ -1,15 +1,15 @@
-import { Client } from 'seyfert';
-import { Yuna } from 'yunaforseyfert';
+import { Client } from "seyfert";
+import { Yuna } from "yunaforseyfert";
 
-import { HandleCommand } from 'seyfert/lib/commands/handle';
+import { HandleCommand } from "seyfert/lib/commands/handle";
 
-import type { HinagiConfig } from '../config';
-import { Configuration } from '../config';
+import type { HinagiConfig } from "../config";
+import { Configuration } from "../config";
 
-import { Manager } from './Manager';
-import { HinagiMiddlewares } from '../middlewares';
+import { HinagiMiddlewares } from "../middlewares";
+import { Manager } from "./Manager";
 
-import getCommandProps from '../utils/functions/getCommandProps';
+import getCommandProps from "../utils/functions/getCommandProps";
 
 export class HinagiClient extends Client {
     readonly manager: Manager;
@@ -18,7 +18,7 @@ export class HinagiClient extends Client {
     constructor() {
         super({
             allowedMentions: {
-                replied_user: false
+                replied_user: false,
             },
             commands: {
                 reply: () => true,
@@ -27,23 +27,28 @@ export class HinagiClient extends Client {
                 defaults: {
                     async onOptionsError(context, metadata) {
                         const { client } = context;
-                        const errorString = Object.entries(metadata).filter((_) => _[1].failed).map((error) => `❌ The option \`${error[0]}\` is required but got \`undefined\`!`).join('\n');
+                        const errorString = Object.entries(metadata)
+                            .filter((_) => _[1].failed)
+                            .map((error) => `❌ The option \`${error[0]}\` is required but got \`undefined\`!`)
+                            .join("\n");
                         const commandProps = getCommandProps(context);
 
                         await context.editOrReply({
-                            embeds: [{
-                                color: client.config.color,
-                                title: 'Invalid command usage!',
-                                description: `${errorString}\n\n${commandProps}`,
-                                footer: {
-                                    text: 'Note: <> means required, [] means optional.'
+                            embeds: [
+                                {
+                                    color: client.config.color,
+                                    title: "Invalid command usage!",
+                                    description: `${errorString}\n\n${commandProps}`,
+                                    footer: {
+                                        text: "Note: <> means required, [] means optional.",
+                                    },
+                                    timestamp: new Date().toISOString(),
                                 },
-                                timestamp: new Date().toISOString()
-                            }]
-                        });            
+                            ],
+                        });
                     },
-                }
-            }
+                },
+            },
         });
 
         this.manager = new Manager(this);
@@ -56,15 +61,15 @@ export class HinagiClient extends Client {
             handleCommand: class extends HandleCommand {
                 argsParser = Yuna.parser({
                     syntax: {
-                        namedOptions: ['-', '--']
+                        namedOptions: ["-", "--"],
                     },
                     useRepliedUserAsAnOption: {
-                        requirePing: false
-                    }
+                        requirePing: false,
+                    },
                 });
-            }
+            },
         });
-        
+
         await this.start();
         await this.uploadCommands();
         await this.manager.load();

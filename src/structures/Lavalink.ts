@@ -1,5 +1,5 @@
-import type { LavalinkManagerEvents, NodeManagerEvents } from 'lavalink-client';
-import type { AllLavaEvents, LavaEventRun, LavaEventType, LavalinkEvent } from '../utils/types';
+import type { LavalinkManagerEvents, NodeManagerEvents } from "lavalink-client";
+import type { AllLavaEvents, LavaEventRun, LavaEventType, LavalinkEvent } from "../utils/types";
 
 export class Lavalink<K extends keyof AllLavaEvents = keyof AllLavaEvents> implements LavalinkEvent<K> {
     readonly name: K;
@@ -13,11 +13,11 @@ export class Lavalink<K extends keyof AllLavaEvents = keyof AllLavaEvents> imple
     }
 
     public isNode(): this is Node {
-        return this.type === 'node';
+        return this.type === "node";
     }
 
     public isManager(): this is Manager {
-        return this.type === 'manager';
+        return this.type === "manager";
     }
 }
 
