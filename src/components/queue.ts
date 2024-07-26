@@ -29,7 +29,7 @@ export default class QueueButton extends ComponentCommand {
                 embeds: [
                     new Embed()
                         .setThumbnail(current?.info.artworkUrl ?? "")
-                        .setColor(client.config.color)
+                        .setColor(client.config.colors.success)
                         .setDescription(
                             `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.length ? tracks.splice(0, tracksPerPage).join("\n") : "No tracks in the queue. Add some tracks with `/play <song>"}`,
                         ),
@@ -40,7 +40,7 @@ export default class QueueButton extends ComponentCommand {
                 paginator.addEmbed(
                     new Embed()
                         .setThumbnail(current?.info.artworkUrl ?? "")
-                        .setColor(client.config.color)
+                        .setColor(client.config.colors.success)
                         .setDescription(
                             `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.length ? tracks.splice(i, i + tracksPerPage).join("\n") : "No tracks in the queue. Add some tracks with `/play <song>"}`,
                         ),

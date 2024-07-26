@@ -16,12 +16,10 @@ export default class ShuffleCommand extends Command {
 
         await player.queue.shuffle();
         await ctx.editOrReply({
-            embeds: [
-                {
-                    description: "The queue has been shuffled!",
-                    color: client.config.color,
-                },
-            ],
+            embeds: [{
+                description: "The queue has been shuffled!",
+                color: client.config.colors.success,
+            }],
         });
     }
 }

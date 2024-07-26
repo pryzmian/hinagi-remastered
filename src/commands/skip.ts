@@ -11,6 +11,7 @@ const options = {
 @Declare({
     name: "skip",
     description: "Skips the current song.",
+    aliases: ["s"],
     integrationTypes: ["GuildInstall"],
     contexts: ["Guild"],
 })
@@ -27,20 +28,28 @@ export default class ExampleCommand extends Command {
         if (position && position > player.queue.tracks.length)
             return ctx.editOrReply({
                 flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        description: `There is no song at position ${position} to skip to!`,
-                        color: client.config.color,
-                    },
-                ],
+                embeds: [{
+                    description: `❌ There is no song at position ${position} to skip to!`,
+                    color: client.config.colors.error,
+                }],
             });
 
         if (position) {
             await player.skip(position);
-            await ctx.editOrReply({ embeds: [{ description: `Skipped **${position}* tracks*!`, color: EmbedColors.Green }] });
+            await ctx.editOrReply({
+                embeds: [{
+                    description: `Skipped to track at position **${position}**`,
+                    color: client.config.colors.success
+                }]
+            });
         } else {
             await player.skip(undefined, false);
-            await ctx.editOrReply({ embeds: [{ description: "Skipped the current song!", color: EmbedColors.Green }] });
+            await ctx.editOrReply({
+                embeds: [{
+                    description: "Skipped the current song!",
+                    color: EmbedColors.Green
+                }]
+            });
         }
     }
 }

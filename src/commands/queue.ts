@@ -29,7 +29,7 @@ export default class QueueCommand extends Command {
                 embeds: [
                     new Embed()
                         .setThumbnail(current?.info.artworkUrl ?? "")
-                        .setColor(client.config.color)
+                        .setColor(client.config.colors.success)
                         .setDescription(
                             `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.slice(0, tracksPerPage).join("\n")}`,
                         )
@@ -41,7 +41,7 @@ export default class QueueCommand extends Command {
                 paginator.addEmbed(
                     new Embed()
                         .setThumbnail(current?.info.artworkUrl ?? "")
-                        .setColor(client.config.color)
+                        .setColor(client.config.colors.success)
                         .setDescription(
                             `**Now Playing:**\n\`${parseTime(current?.info.duration as number)}\` | [**${current?.info.title}**](${current?.info.uri})\n\n**Up Next:**\n${tracks.slice(i, i + tracksPerPage).join("\n")}`,
                         )

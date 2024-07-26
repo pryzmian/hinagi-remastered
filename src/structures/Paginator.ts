@@ -55,7 +55,7 @@ export class EmbedPaginator {
                         embeds: [
                             {
                                 description: `Only the user: ${ctx.author.toString()} can use this.`,
-                                color: client.config.color,
+                                color: client.config.colors.error,
                             },
                         ],
                     });

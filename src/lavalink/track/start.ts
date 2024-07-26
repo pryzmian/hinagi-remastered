@@ -27,7 +27,7 @@ export default new Lavalink({
         );
 
         const embed = new Embed()
-            .setColor(client.config.color)
+            .setColor(client.config.colors.success)
             .setAuthor({
                 name: (track.requester as User).tag || "Unknown User",
                 iconUrl: (track.requester as User).avatarURL(),

@@ -1,16 +1,27 @@
 import { MessageFlags } from "discord-api-types/v10";
 import { type ComponentContext, type MiddlewareContext, createMiddleware } from "seyfert";
 
-export const checkQueueExists: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
+const createErrorReply = async (context: ComponentContext<"Button">, description: string) => {
     const { client } = context;
-    const player = client.manager.getPlayer(context.guildId!);
+    await context.editOrReply({
+        flags: MessageFlags.Ephemeral,
+        embeds: [{
+            color: client.config.colors.error,
+            description: `❌ ${description}`
+        }]
+    });
+};
+
+const getPlayer = (context: ComponentContext<"Button">) => {
+    const { client, guildId } = context;
+    return client.manager.getPlayer(guildId!);
+};
+
+export const checkQueueExists: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
+    const player = getPlayer(context);
 
     if (!player) {
-        await context.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: "❌ There is no queue for this server, try playing a track first!",
-        });
-
+        await createErrorReply(context, "There is no queue for this server, try playing a track first!");
         return pass();
     }
 
@@ -18,83 +29,62 @@ export const checkQueueExists: MiddlewareContext = createMiddleware<void, Compon
 });
 
 export const checkHistoryExists: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
-    const { client } = context;
-    const player = client.manager.getPlayer(context.guildId!);
+    const player = getPlayer(context);
 
     if (!player?.queue.previous.length) {
-        await context.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: "❌ You cannot perform this action as there are no previous tracks played in the queue!",
-        });
-
+        await createErrorReply(context, "You cannot perform this action as there are no previous tracks played in the queue!");
         return pass();
     }
 
     return next();
 });
 
-export const checkQueueEmpty = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
-    const { client } = context;
-    const player = client.manager.getPlayer(context.guildId!);
+export const checkQueueEmpty: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
+    const player = getPlayer(context);
     const isAutoplay = player?.get<boolean>("enabledAutoplay") ?? false;
 
-    if (!(isAutoplay && player?.queue.tracks.length)) {
-        await context.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: "❌ You cannot perform this action as the queue is empty!",
-        });
-
+    if (!isAutoplay && player.queue.tracks.length === 0) {
+        if (player.playing || player.paused) {
+            await player.stopPlaying();
+        } else {
+            await createErrorReply(context, "You cannot perform this action as the queue is empty!");
+        }
         return pass();
     }
 
     return next();
 });
 
-export const checkTrackExists = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
-    const { client, interaction } = context;
-    const player = client.manager.getPlayer(context.guildId!);
-
+export const checkTrackExists: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
+    const { interaction } = context;
+    const player = getPlayer(context);
     const messageId = player?.get<string>("messageId") ?? "";
 
     if (interaction.isButton() && interaction.message.id !== messageId) {
-        await context.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: "❌ It looks like this track has been skipped or is no longer in the queue.",
-        });
-
+        await createErrorReply(context, "It looks like this track has been skipped or is no longer in the queue.");
         return pass();
     }
 
     return next();
 });
 
-export const checkQueueNotPlaying = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
-    const { client } = context;
-    const player = client.manager.getPlayer(context.guildId!);
+export const checkQueueNotPlaying: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
+    const player = getPlayer(context);
 
     if (player && !player.playing) {
-        await context.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: "❌ You cannot perform this action as the music playback is currently inactive!",
-        });
-
+        await createErrorReply(context, "You cannot perform this action as the music playback is currently inactive!");
         return pass();
     }
 
     return next();
 });
 
-export const checkAutoplayRequirements = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
-    const { client } = context;
-    const player = client.manager.getPlayer(context.guildId!);
+export const checkAutoplayRequirements: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
+    const player = getPlayer(context);
     const tracksNeeded = player.queue.tracks.length >= 2;
 
     if (player && !tracksNeeded) {
-        await context.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: "❌ Two or more tracks are required to be in the queue for this feature to work!",
-        });
-
+        await createErrorReply(context, "Two or more tracks are required to be in the queue for this feature to work!");
         return pass();
     }
 

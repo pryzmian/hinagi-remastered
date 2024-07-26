@@ -1,7 +1,11 @@
 import type { LavalinkNodeOptions } from "lavalink-client";
 
 export interface HinagiConfig {
-    color: number;
+    colors: {
+        error: number;
+        success: number;
+        warning: number;
+    };
     nodes: LavalinkNodeOptions[];
     prefixes: string[];
     emojis: {
@@ -16,7 +20,11 @@ export interface HinagiConfig {
 }
 
 export const Configuration: HinagiConfig = {
-    color: 0x007cff,
+    colors: {
+        error: 0x960018,
+        success: 0x007cff,
+        warning: 0xe1ad01
+    },
     prefixes: ["hina", "h!", "hinagi"],
     emojis: {
         error: "",

@@ -27,7 +27,7 @@ export default class PatCommand extends Command {
             return ctx.editOrReply({
                 embeds: [
                     {
-                        color: client.config.color,
+                        color: client.config.colors.success,
                         description: `**${author.toString()}** I couldn't find that user. Sorry :(`,
                     },
                 ],
@@ -36,7 +36,7 @@ export default class PatCommand extends Command {
         return ctx.editOrReply({
             embeds: [
                 {
-                    color: client.config.color,
+                    color: client.config.colors.success,
                     description: `**${author.toString()}** patted **${member.toString()}**!`,
                     image: {
                         url: `${(await nekoClient.pat()).url}`,

@@ -26,45 +26,37 @@ export default class KissCommand extends Command {
         const member = await client.members.fetch(guildId!, user.id);
         if (!member)
             return ctx.editOrReply({
-                embeds: [
-                    {
-                        color: client.config.color,
-                        description: `**${author.toString()}** I couldn't find that user. Sorry :(`,
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `**${author.toString()}** I couldn't find that user. Sorry :(`,
+                }],
             });
 
         if (member.id === client.botId)
             return ctx.editOrReply({
-                embeds: [
-                    {
-                        color: client.config.color,
-                        description: `**${author.toString()}** You can't kiss me! 😳`,
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `**${author.toString()}** You can't kiss me! 😳`,
+                }],
             });
 
         if (member.id === author.id)
             return ctx.editOrReply({
-                embeds: [
-                    {
-                        color: client.config.color,
-                        description: `**${author.toString()}** You can't kiss yourself! 😳`,
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `**${author.toString()}** You can't kiss yourself! 😳`,
+                }],
             });
 
         return ctx.editOrReply({
-            embeds: [
-                {
-                    color: client.config.color,
-                    description: `**${author.toString()}** kissed **${member.toString()}**!`,
-                    image: {
-                        url: `${(await nekoClient.kiss()).url}`,
-                    },
-                    timestamp: new Date().toISOString(),
+            embeds: [{
+                color: client.config.colors.success,
+                description: `**${author.toString()}** kissed **${member.toString()}**!`,
+                image: {
+                    url: `${(await nekoClient.kiss()).url}`,
                 },
-            ],
+                timestamp: new Date().toISOString(),
+            }],
         });
     }
 }

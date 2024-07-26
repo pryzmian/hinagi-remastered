@@ -8,7 +8,7 @@ export const checkPermissions = createMiddleware<void>(async ({ context, next, p
     if (!me) return;
 
     const voice = member?.voice();
-    const bot = context.me()?.voice();
+    const bot = client.cache.voiceStates?.get(client.me?.id!, context.guildId!);
 
     const permissions = await client.channels.memberPermissions(voice?.channelId!, me);
     const missings = permissions.keys(permissions.missings(["Connect", "Speak", "ViewChannel", "MoveMembers"]));
