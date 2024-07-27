@@ -16,7 +16,7 @@ const options = {
     contexts: ["Guild"],
 })
 @Options(options)
-@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty"])
+@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueNotPlaying"])
 export default class VolumeCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options } = ctx;

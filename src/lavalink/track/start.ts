@@ -1,6 +1,6 @@
 import { Lavalink } from "../../structures/Lavalink";
 
-import { ButtonStyle } from "discord-api-types/v10";
+import { APIEmbedThumbnail, ButtonStyle } from "discord-api-types/v10";
 import type { CommandContext, User } from "seyfert";
 import { ActionRow, Button, Embed } from "seyfert";
 
@@ -26,16 +26,21 @@ export default new Lavalink({
             new Button().setCustomId("queue-button").setEmoji(client.config.emojis.queue).setStyle(ButtonStyle.Primary),
         );
 
-        const embed = new Embed()
-            .setColor(client.config.colors.success)
-            .setAuthor({
-                name: (track.requester as User).tag || "Unknown User",
-                iconUrl: (track.requester as User).avatarURL(),
-            })
-            .setDescription(`**Now playing ♪**\n[**${track.info.title}**](${track.info.uri})`)
-            .setThumbnail(track.info.artworkUrl ?? "");
-
-        const message = await client.messages.write(player.textChannelId, { embeds: [embed], components: [row] }).catch(() => null);
+        const message = await client.messages.write(player.textChannelId, {
+            components: [row],
+            embeds: [{
+                color: client.config.colors.success,
+                author: {
+                    name: (track.requester as User).username ?? "",
+                    icon_url: (track.requester as User).avatarURL() ?? null
+                },
+                description: `**Now playing ♪**\n[**${track.info.title}**](${track.info.uri})`,
+                thumbnail: {
+                    url: track.info.artworkUrl ?? ""
+                }
+            }]
+        }).catch(() => null);
+        
         if (message) player.set("messageId", message.id);
     },
 });

@@ -20,7 +20,6 @@ export class HinagiClient extends Client {
             allowedMentions: {
                 replied_user: false,
             },
-            globalMiddlewares: ["checkPermissions"],
             commands: {
                 reply: () => true,
                 prefix: () => this.config.prefixes,

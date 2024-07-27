@@ -19,7 +19,10 @@ export async function autoPlayFunction(player: Player, lastTrack: Track) {
                 Math.floor(Math.random() * res.tracks.length) ?? 1
             ] as Track;
             player.queue.previous.push(track);
-            if (res.tracks.length) await player.queue.add(track);
+            if (res.tracks.length) {
+                track.requester = player.get("clientUser")
+                await player.queue.add(track);
+            }
         }
     } else if (["youtube", "youtubemusic"].includes(lastTrack.info.sourceName)) {
         const search = `https://www.youtube.com/watch?v=${lastTrack.info.identifier}&list=RD${lastTrack.info.identifier}`;
@@ -28,6 +31,9 @@ export async function autoPlayFunction(player: Player, lastTrack: Track) {
             Math.floor(Math.random() * res.tracks.length) ?? 1
         ] as Track;
         player.queue.previous.push(track);
-        if (res.tracks.length) await player.queue.add(track);
+        if (res.tracks.length) {
+            track.requester = player.get("clientUser")
+            await player.queue.add(track);
+        }
     }
 }

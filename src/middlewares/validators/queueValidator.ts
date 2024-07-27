@@ -41,14 +41,9 @@ export const checkHistoryExists: MiddlewareContext = createMiddleware<void, Comp
 
 export const checkQueueEmpty: MiddlewareContext = createMiddleware<void, ComponentContext<"Button">>(async ({ context, next, pass }) => {
     const player = getPlayer(context);
-    const isAutoplay = player?.get<boolean>("enabledAutoplay") ?? false;
 
-    if (!isAutoplay && player.queue.tracks.length === 0) {
-        if (player.playing || player.paused) {
-            await player.stopPlaying();
-        } else {
-            await createErrorReply(context, "You cannot perform this action as the queue is empty!");
-        }
+    if (player && !player.queue.tracks.length) {
+        await createErrorReply(context, "You cannot perform this action as the queue is empty!");
         return pass();
     }
 

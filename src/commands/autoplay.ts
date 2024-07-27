@@ -19,7 +19,7 @@ const options = {
     contexts: ["Guild"],
 })
 @Options(options)
-@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueNotPlaying", "checkAutoplayRequirements", "checkAutoplayRequirements"])
+@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueNotPlaying", "checkAutoplayRequirements"])
 export default class AutoplayCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options, guildId } = ctx;

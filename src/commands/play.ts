@@ -46,7 +46,7 @@ const options = {
     contexts: ["Guild"],
 })
 @Options(options)
-@Middlewares(["checkVoiceChannel", "checkPermissions"])
+@Middlewares(["checkVoiceChannel", "checkPermissions", "checkPermissions"])
 export default class PlayCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options, member, author } = ctx;
@@ -67,6 +67,7 @@ export default class PlayCommand extends Command {
         const { loadType, playlist, tracks } = await player.search({ query }, author);
 
         player.set("commandContext", ctx);
+        player.set("clientUser", client.me)
 
         if (!player.connected) await player.connect();
 
