@@ -4,7 +4,6 @@ import type {
     ExtraProps,
     MenuCommandContext,
     MessageCommandInteraction,
-    MiddlewareContext,
     ModalContext,
     ParseClient,
     ParseMiddlewares,
@@ -26,7 +25,7 @@ export type CommandProps = ExtraProps & {
     examples: string[];
 };
 
-export type HinagiMiddlewaresType = { [key: string]: MiddlewareContext };
+export type HinagiMiddlewaresType = typeof HinagiMiddlewares;
 
 declare module "seyfert" {
     interface InternalOptions {

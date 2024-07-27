@@ -6,11 +6,12 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "all": true,
+            "recommended": true,
             "suspicious": {
                 "noExplicitAny": "off",
                 "noConfusingVoidType": "off",
-                "noEmptyBlockStatements": "off"
+                "noEmptyBlockStatements": "off",
+                "useAwait": "off"
             },
             "style": {
                 "noNonNullAssertion": "off",

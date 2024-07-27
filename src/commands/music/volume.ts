@@ -1,4 +1,4 @@
-import { Command, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from "seyfert";
 
 const options = {
     volume: createIntegerOption({
@@ -17,7 +17,7 @@ const options = {
 })
 @Options(options)
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty"])
-export default class VolumeCommand extends Command {
+export default class VolumeCommand extends SubCommand {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options } = ctx;
         const { volume } = options;

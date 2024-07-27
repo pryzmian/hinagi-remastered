@@ -1,6 +1,6 @@
-import { Command, type CommandContext, Declare, Embed, Middlewares } from "seyfert";
-import { EmbedPaginator } from "../structures/Paginator";
-import { parseTime } from "../utils/functions/parseTime";
+import { SubCommand, type CommandContext, Declare, Embed, Middlewares } from "seyfert";
+import { EmbedPaginator } from "../../structures/Paginator";
+import { parseTime } from "../../utils/functions/parseTime";
 
 @Declare({
     name: "queue",
@@ -10,7 +10,7 @@ import { parseTime } from "../utils/functions/parseTime";
     contexts: ["Guild"],
 })
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty"])
-export default class QueueCommand extends Command {
+export default class QueueCommand extends SubCommand {
     async run(ctx: CommandContext) {
         const { client } = ctx;
         const player = client.manager.getPlayer(ctx.guildId!);

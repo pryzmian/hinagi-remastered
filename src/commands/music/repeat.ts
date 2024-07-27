@@ -1,5 +1,5 @@
 import type { RepeatMode } from "lavalink-client";
-import { Command, type CommandContext, Declare, Middlewares, Options, createStringOption } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares, Options, createStringOption } from "seyfert";
 import { EmbedColors } from "seyfert/lib/common";
 
 const options = {
@@ -23,7 +23,7 @@ const options = {
 @Options(options)
 
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty", "checkTrackExists"])
-export default class RepeatCommand extends Command {
+export default class RepeatCommand extends SubCommand {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options } = ctx;
         const { mode } = options;

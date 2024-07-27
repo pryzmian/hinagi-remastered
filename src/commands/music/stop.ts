@@ -1,4 +1,4 @@
-import { Command, type CommandContext, Declare, Middlewares } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares } from "seyfert";
 import { EmbedColors } from "seyfert/lib/common";
 
 @Declare({
@@ -8,7 +8,7 @@ import { EmbedColors } from "seyfert/lib/common";
     contexts: ["Guild"],
 })
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty", "checkQueueNotPlaying"])
-export default class ExampleCommand extends Command {
+export default class ExampleCommand extends SubCommand {
     async run(ctx: CommandContext) {
         const { client } = ctx;
 

@@ -1,5 +1,5 @@
 import { MessageFlags } from "discord-api-types/v10";
-import { Command, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from "seyfert";
 import { EmbedColors } from "seyfert/lib/common";
 
 const options = {
@@ -18,7 +18,7 @@ const options = {
 @Options(options)
 
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty", "checkQueueNotPlaying"])
-export default class ExampleCommand extends Command {
+export default class ExampleCommand extends SubCommand {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options } = ctx;
         const { position } = options;

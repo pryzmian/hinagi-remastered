@@ -1,31 +1,27 @@
-import { MessageFlags } from "discord-api-types/v10";
-import { createMiddleware } from "seyfert";
+import { createMiddleware, type PermissionStrings } from "seyfert";
 
-export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, pass }) => {
-    const { member, me } = context;
+export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, stop }) => {
+    const { client, member } = context;
+    const me = context.me();
 
-    if (!me) return;
+    if (!(member && me)) return;
 
-    const voice = member?.voice();
-    const bot = context.me()?.voice();
+    const requiredPermissions = ["Connect", "Speak", "ViewChannel"];
 
-    if (!voice) {
-        await context.editOrReply({
-            content: "❌ You need to be in a voice channel to use this command!",
-            flags: MessageFlags.Ephemeral,
-        });
+    const voice = member.voice();
+    const botVoice = me?.voice();
 
-        return pass();
-    }
+    if (!voice) return stop("You need to be in a voice channel to manage music");
+    if (botVoice && botVoice.channelId !== voice.channelId) return stop("You need to be in my same channel to manage music");
 
-    if (bot && voice.channelId !== bot.channelId) {
-        await context.editOrReply({
-            content: `❌ You need to be in the same voice channel as me (${await bot.channel()}) to use this command!`,
-            flags: MessageFlags.Ephemeral,
-        });
+    const voiceChannel = await voice?.channel();
 
-        return pass();
-    }
+    if (voiceChannel?.isStage()) requiredPermissions.push("MoveMembers");
+
+    const permissions = await client.channels.memberPermissions(voice?.channelId!, me!);
+    const missings = permissions.keys(permissions.missings(requiredPermissions as PermissionStrings));
+
+    if (missings.length) return stop(`I am missing one of the following permissions to manage music: ${missings.join(", ")}`);
 
     return next();
 });

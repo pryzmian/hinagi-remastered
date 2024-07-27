@@ -1,4 +1,4 @@
-import { Command, type CommandContext, Declare, Middlewares, Options, createStringOption } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares, Options, createStringOption } from "seyfert";
 
 const spliceName = (text: string) => (text.length > 100 ? `${text.substring(0, 50)}...` : text);
 
@@ -46,8 +46,8 @@ const options = {
     contexts: ["Guild"],
 })
 @Options(options)
-@Middlewares(["checkVoiceChannel", "checkPermissions"])
-export default class PlayCommand extends Command {
+@Middlewares(["checkVoiceChannel"])
+export default class PlayCommand extends SubCommand {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options, member, author } = ctx;
         const { query } = options;

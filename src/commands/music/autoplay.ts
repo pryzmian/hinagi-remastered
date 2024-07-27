@@ -1,4 +1,4 @@
-import { Command, type CommandContext, Declare, Middlewares, Options, createBooleanOption } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares, Options, createBooleanOption } from "seyfert";
 
 const options = {
     enabled: createBooleanOption({
@@ -20,7 +20,7 @@ const options = {
 })
 @Options(options)
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueNotPlaying", "checkAutoplayRequirements", "checkAutoplayRequirements"])
-export default class AutoplayCommand extends Command {
+export default class AutoplayCommand extends SubCommand {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options, guildId } = ctx;
         const { enabled } = options;

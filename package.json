@@ -15,7 +15,9 @@
     "format": "biome check --write .",
     "prepare": "husky"
   },
-  "lint-staged": ["biome check --write ."],
+  "lint-staged": [
+    "biome check --write ."
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pryzmian/hinagi-remastered.git"
@@ -34,21 +36,21 @@
     }
   ],
   "dependencies": {
-    "@google/generative-ai": "0.3.1",
-    "discord-api-types": "0.37.87",
+    "@google/generative-ai": "0.16.0",
+    "discord-api-types": "0.37.93",
     "dotenv": "16.4.5",
     "lavalink-client": "github:tomato6966/lavalink-client",
-    "mongoose": "8.2.4",
+    "mongoose": "8.5.1",
     "nekos.life": "3.0.0",
     "seyfert": "github:tiramisulabs/seyfert",
     "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert#dev"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@types/node": "20.11.30",
-    "husky": "^9.1.2",
+    "@types/node": "20.14.12",
+    "husky": "^9.1.3",
     "lint-staged": "^15.2.7",
     "tsc-watch": "6.2.0",
-    "typescript": "5.4.3"
+    "typescript": "5.5.4"
   }
 }

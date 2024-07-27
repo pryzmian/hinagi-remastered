@@ -1,4 +1,4 @@
-import { Command, type CommandContext, Declare, Middlewares } from "seyfert";
+import { SubCommand, type CommandContext, Declare, Middlewares } from "seyfert";
 
 @Declare({
     name: "shuffle",
@@ -8,7 +8,7 @@ import { Command, type CommandContext, Declare, Middlewares } from "seyfert";
     contexts: ["Guild"],
 })
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty", "checkQueueNotPlaying"])
-export default class ShuffleCommand extends Command {
+export default class ShuffleCommand extends SubCommand {
     async run(ctx: CommandContext) {
         const { client } = ctx;
 
