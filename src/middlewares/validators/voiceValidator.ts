@@ -2,12 +2,10 @@ import { MessageFlags } from "discord-api-types/v10";
 import { createMiddleware } from "seyfert";
 
 export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, pass }) => {
-    const { member, me } = context;
+    const { member, client } = context;
 
-    if (!me) return;
-
-    const voice = member?.voice();
-    const bot = context.me()?.voice();
+    const voice = client.cache.voiceStates?.get(member?.id!, context.guildId!)
+    const botChannel = await client.cache.voiceStates?.get(client.me?.id!, context.guildId!)?.channel();
 
     if (!voice) {
         await context.editOrReply({
@@ -18,9 +16,9 @@ export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, 
         return pass();
     }
 
-    if (bot && voice.channelId !== bot.channelId) {
+    if (botChannel && voice.channelId !== botChannel.id) {
         await context.editOrReply({
-            content: `❌ You need to be in the same voice channel as me (${await bot.channel()}) to use this command!`,
+            content: `❌ You need to be in the same voice channel as me (${botChannel}) to use this command!`,
             flags: MessageFlags.Ephemeral,
         });
 

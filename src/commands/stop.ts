@@ -7,11 +7,10 @@ import { EmbedColors } from "seyfert/lib/common";
     integrationTypes: ["GuildInstall"],
     contexts: ["Guild"],
 })
-@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueNotPlaying"])
+@Middlewares(["checkVoiceChannel", "checkQueueExists"])
 export default class ExampleCommand extends Command {
     async run(ctx: CommandContext) {
         const { client } = ctx;
-
         const player = client.manager.getPlayer(ctx.guildId!);
 
         await player.destroy();

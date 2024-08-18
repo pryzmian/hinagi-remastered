@@ -52,13 +52,13 @@ export default class PlayCommand extends Command {
         const { client, options, member, author } = ctx;
         const { query } = options;
 
-        const voice = await member?.voice()?.channel();
+        const voice = client.cache.voiceStates?.get(member?.id!, ctx.guildId!)
 
         await ctx.deferReply();
 
         const player = client.manager.createPlayer({
             guildId: ctx.guildId!,
-            voiceChannelId: voice?.id!,
+            voiceChannelId: voice?.channelId!,
             textChannelId: ctx.channelId!,
             selfDeaf: true,
             volume: 100,
@@ -67,7 +67,6 @@ export default class PlayCommand extends Command {
         const { loadType, playlist, tracks } = await player.search({ query }, author);
 
         player.set("commandContext", ctx);
-        player.set("clientUser", client.me)
 
         if (!player.connected) await player.connect();
 

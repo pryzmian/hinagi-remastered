@@ -21,16 +21,14 @@ export type AnyContext =
     | ComponentContext
     | ModalContext;
 
-export type CommandProps = ExtraProps & {
-    usage: string;
-    examples: string[];
-};
-
-export type HinagiMiddlewaresType = { [key: string]: MiddlewareContext };
-
 declare module "seyfert" {
     interface InternalOptions {
         withPrefix: true;
+    }
+
+    interface ExtraProps {
+        usage: string;
+        examples: string[];
     }
 
     interface UsingClient extends ParseClient<HinagiClient> {}

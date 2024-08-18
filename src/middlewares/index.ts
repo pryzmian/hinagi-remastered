@@ -1,4 +1,3 @@
-import type { HinagiMiddlewaresType } from "../utils/types";
 import { checkPermissions } from "./validators/permissionsValidator";
 import {
     checkAutoplayRequirements,
@@ -10,7 +9,7 @@ import {
 } from "./validators/queueValidator";
 import { checkVoiceChannel } from "./validators/voiceValidator";
 
-export const HinagiMiddlewares: HinagiMiddlewaresType = {
+export const HinagiMiddlewares = {
     checkVoiceChannel,
     checkPermissions,
     checkQueueExists,

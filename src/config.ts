@@ -6,7 +6,6 @@ export interface HinagiConfig {
         success: number;
         warning: number;
     };
-    nodes: LavalinkNodeOptions[];
     prefixes: string[];
     emojis: {
         error: string;
@@ -17,6 +16,7 @@ export interface HinagiConfig {
         stop: string;
         queue: string;
     };
+    nodes: LavalinkNodeOptions[];
 }
 
 export const Configuration: HinagiConfig = {
@@ -37,10 +37,10 @@ export const Configuration: HinagiConfig = {
     },
     nodes: [
         {
-            id: "Node Hinagi",
+            id: "Node Hinagi 1",
             host: process.env.LAVALINK_HOST!,
             port: Number(process.env.LAVALINK_PORT),
             authorization: process.env.LAVALINK_AUTHORIZATION!,
-        },
-    ],
+        }
+    ]
 };

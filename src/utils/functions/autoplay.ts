@@ -1,39 +1,64 @@
-import type { Player, Track } from "lavalink-client";
+import type { Player, SourceNames, Track, UnresolvedTrack } from "lavalink-client";
+import type { CommandContext } from "seyfert";
+
+type ResolvableTrack = UnresolvedTrack | Track;
+
+const maxTracks = 10;
 
 /**
- * Function to handle autoplay logic for the player.
- * @param player The player object.
- * @param lastTrack The last played track.
+ * Based on:
+ * https://github.com/Tomato6966/lavalink-client/blob/main/testBot/Utils/OptionalFunctions.ts#L18
+ *
+ * Modified by: https://github.com/NoBody-UU/
  */
-export async function autoPlayFunction(player: Player, lastTrack: Track) {
-    if (!player.get<boolean | undefined>("enabledAutoplay")) return;
 
-    if (lastTrack.info.sourceName === "spotify") {
-        const filtered = player.queue.previous.filter(({ info }) => info.sourceName === "spotify").slice(0, 5);
-        const ids = filtered.map(
-            ({ info }) => info.identifier || info.uri.split("/")?.reverse()?.[0] || info.uri.split("/")?.reverse()?.[1],
+/**
+ *
+ * An autoplay function, that's all.
+ * @param player
+ * @param lastTrack
+ * @returns
+ */
+export async function autoPlayFunction(player: Player, lastTrack?: Track): Promise<void> {
+    if (!lastTrack) return;
+    if (!player.get("enabledAutoplay")) return;
+
+    if (!(player.queue.previous.some((t) => t.info.identifier === lastTrack.info.identifier) || player.queue.previous.length))
+        player.queue.previous.unshift(lastTrack);
+
+    const ctx = player.get<CommandContext | undefined>("commandContext");
+    if (!ctx) return;
+
+    const filterTracks = (tracks: ResolvableTrack[]) =>
+        tracks.filter(
+            (track) =>
+                !(
+                    player.queue.previous.some((t) => t.info.identifier === track.info.identifier) ||
+                    lastTrack.info.identifier === track.info.identifier
+                ),
         );
-        if (ids.length >= 1) {
-            const res = await player.search({ query: `seed_tracks=${ids.join(",")}`, source: "sprec" }, lastTrack.requester);
-            const track = res.tracks.filter((v) => !player.queue.previous.find((t) => t.info.identifier === v.info.identifier))[
-                Math.floor(Math.random() * res.tracks.length) ?? 1
-            ] as Track;
-            player.queue.previous.push(track);
-            if (res.tracks.length) {
-                track.requester = player.get("clientUser")
-                await player.queue.add(track);
-            }
-        }
-    } else if (["youtube", "youtubemusic"].includes(lastTrack.info.sourceName)) {
-        const search = `https://www.youtube.com/watch?v=${lastTrack.info.identifier}&list=RD${lastTrack.info.identifier}`;
-        const res = await player.search({ query: search }, lastTrack.requester);
-        const track = res.tracks.filter((v) => !player.queue.previous.find((t) => t.info.identifier === v.info.identifier))[
-            Math.floor(Math.random() * res.tracks.length) ?? 1
-        ] as Track;
-        player.queue.previous.push(track);
+
+    const requester = ctx.client.me;
+    
+    if (lastTrack.info.sourceName === "spotify") {
+        const filtered = player.queue.previous.filter(({ info }) => info.sourceName === "spotify").slice(0, 1);
+        if (!filtered.length) filtered.push(lastTrack);
+
+        const ids = filtered.map(({ info }) => info.identifier ?? info.uri.split("/").reverse()?.[0] ?? info.uri.split("/").reverse()?.[1]);
+        const res = await player.search({ query: `seed_tracks=${ids.join(",")}`, source: "sprec" }, requester);
+
         if (res.tracks.length) {
-            track.requester = player.get("clientUser")
+            const track = filterTracks(res.tracks)[Math.floor(Math.random() * res.tracks.length)] as Track;
             await player.queue.add(track);
         }
+    } else if ((["youtube", "youtubemusic"] as SourceNames[]).includes(lastTrack.info.sourceName)) {
+        const search = `https://www.youtube.com/watch?v=${lastTrack.info.identifier}&list=RD${lastTrack.info.identifier}`;
+        const res = await player.search({ query: search }, requester);
+
+        if (res.tracks.length) {
+            const random = Math.floor(Math.random() * res.tracks.length);
+            const tracks = filterTracks(res.tracks).slice(random, random + maxTracks) as Track[];
+            await player.queue.add(tracks);
+        }   
     }
 }

@@ -6,7 +6,6 @@ module.exports = config.bot({
     applicationId: process.env.DISCORD_APPLICATION_ID ?? "",
     intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildVoiceStates,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
@@ -18,5 +17,5 @@ module.exports = config.bot({
         commands: "commands",
         components: "components",
     },
-    debug: true,
+    debug: false,
 });

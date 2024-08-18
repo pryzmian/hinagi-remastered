@@ -11,7 +11,7 @@ import { Manager } from "./Manager";
 
 import getCommandProps from "../utils/functions/getCommandProps";
 
-export class HinagiClient extends Client {
+export class HinagiClient extends Client<true> {
     readonly manager: Manager;
     readonly config: HinagiConfig = Configuration;
 
