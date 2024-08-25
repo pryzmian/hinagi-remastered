@@ -1,4 +1,4 @@
-import { MessageFlags } from "discord-api-types/v10";
+import { MessageFlags } from "seyfert/lib/types";
 import { Command, type CommandContext, Declare } from "seyfert";
 
 @Declare({

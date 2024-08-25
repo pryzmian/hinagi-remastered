@@ -1,4 +1,4 @@
-import { MessageFlags } from "discord-api-types/v10";
+import { MessageFlags } from "seyfert/lib/types";
 import { Command, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from "seyfert";
 import { EmbedColors } from "seyfert/lib/common";
 

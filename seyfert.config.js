@@ -1,4 +1,4 @@
-const { GatewayIntentBits } = require("discord-api-types/v10");
+const { GatewayIntentBits } = require("seyfert/lib/types");
 const { config } = require("seyfert");
 
 module.exports = config.bot({

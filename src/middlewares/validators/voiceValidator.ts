@@ -1,4 +1,4 @@
-import { MessageFlags } from "discord-api-types/v10";
+import { MessageFlags } from "seyfert/lib/types";
 import { createMiddleware } from "seyfert";
 
 export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, pass }) => {

@@ -1,4 +1,4 @@
-import { type APIButtonComponentWithCustomId, ButtonStyle, ComponentType, MessageFlags } from "discord-api-types/v10";
+import { type APIButtonComponentWithCustomId, ButtonStyle, ComponentType, MessageFlags } from "seyfert/lib/types";
 import { ActionRow, Button, type Embed, type Message, type WebhookMessage } from "seyfert";
 import type { InteractionCreateBodyRequest, InteractionMessageUpdateBodyRequest } from "seyfert/lib/common/index.js";
 import type { AnyContext } from "../utils/types";

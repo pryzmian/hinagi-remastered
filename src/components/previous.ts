@@ -16,5 +16,6 @@ export default class PauseButton extends ComponentCommand {
 
         await ctx.interaction.deferUpdate();
         await player.queue.add(player.queue.previous.shift() as Track, 0);
+        await player.skip();
     }
 }

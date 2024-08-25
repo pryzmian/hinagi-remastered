@@ -1,4 +1,4 @@
-import { MessageFlags } from "discord-api-types/v10";
+import { MessageFlags } from "seyfert/lib/types";
 import type { ComponentContext } from "seyfert";
 import { ComponentCommand, Embed, Middlewares } from "seyfert";
 import { EmbedPaginator } from "../structures/Paginator";

@@ -1,8 +1,8 @@
 import { Lavalink } from "../../structures/Lavalink";
 
-import { APIEmbedThumbnail, ButtonStyle } from "discord-api-types/v10";
+import { ButtonStyle } from "seyfert/lib/types";
 import type { CommandContext, User } from "seyfert";
-import { ActionRow, Button, Embed } from "seyfert";
+import { ActionRow, Button } from "seyfert";
 
 export default new Lavalink({
     name: "trackStart",
@@ -40,7 +40,7 @@ export default new Lavalink({
                 }
             }]
         }).catch(() => null);
-        
+
         if (message) player.set("messageId", message.id);
     },
 });

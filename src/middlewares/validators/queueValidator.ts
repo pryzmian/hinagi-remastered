@@ -1,4 +1,4 @@
-import { MessageFlags } from "discord-api-types/v10";
+import { MessageFlags } from "seyfert/lib/types";
 import { type MiddlewareContext, createMiddleware } from "seyfert";
 import type { AnyContext } from "../../utils/types";
 
@@ -80,11 +80,11 @@ export const checkAutoplayRequirements: MiddlewareContext = createMiddleware<voi
     const player = client.manager.getPlayer(guildId!);
     const tracksNeeded = player!.queue.tracks.length + Number(!!player.queue.current) >= 1;
     const isAutoplayActive = !!player.get<boolean>("enabledAutoplay");
-    
+
     if (!tracksNeeded && isAutoplayActive) {
         await createErrorReply(context, "You cannot enable the autoplay feature as there are no tracks in the queue!");
         return pass();
     }
-    
+
     return next();
 });

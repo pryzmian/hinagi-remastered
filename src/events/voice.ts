@@ -14,7 +14,7 @@ export default createEvent({
 
         const stateChannel = await client.channels.fetch(player.voiceChannelId!);
 
-        if (!stateChannel.is(["GuildVoice", "GuildStageVoice"])) return;
+        if (!stateChannel.is(["GuildVoice"])) return;
 
         // Check if voice channel is empty
         const members = await Promise.all((await stateChannel.states()).map((x) => x.member()));
