@@ -13,9 +13,13 @@ import { Command, type CommandContext, Declare } from "seyfert";
 })
 export default class PingCommand extends Command {
     async run(ctx: CommandContext) {
-        await ctx.editOrReply({
-            flags: MessageFlags.Ephemeral,
-            content: `Pong! ${ctx.client.gateway.latency}ms`,
+        const { client } = ctx;
+
+        await ctx.write({
+            embeds: [{
+                color: client.config.colors.success,
+                description: `🏓 Pong! Latency is **${Math.floor(client.gateway.latency)}ms**.`,
+            }]
         });
     }
 }

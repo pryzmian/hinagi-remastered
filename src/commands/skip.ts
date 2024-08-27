@@ -17,39 +17,31 @@ const options = {
 })
 @Options(options)
 
-@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueEmpty", "checkQueueNotPlaying"])
+@Middlewares(["checkVoiceChannel", "checkQueueExists", "checkQueueNotPlaying"])
 export default class ExampleCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options } = ctx;
         const { position } = options;
 
         const player = client.manager.getPlayer(ctx.guildId!);
+        const targetTrack = position ? player.queue.tracks[position - 1] : player.queue.current;
 
-        if (position && position > player.queue.tracks.length)
+        if (position && position > player.queue.tracks.length) {
             return ctx.editOrReply({
                 flags: MessageFlags.Ephemeral,
                 embeds: [{
-                    description: `❌ There is no song at position ${position} to skip to!`,
                     color: client.config.colors.error,
+                    description: `${client.config.emojis.error} The track at position ${position} does not exist!`,
                 }],
             });
-
-        if (position) {
-            await player.skip(position);
-            await ctx.editOrReply({
-                embeds: [{
-                    description: `Skipped to track at position **${position}**`,
-                    color: client.config.colors.success
-                }]
-            });
-        } else {
-            await player.skip(undefined, false);
-            await ctx.editOrReply({
-                embeds: [{
-                    description: "Skipped the current song!",
-                    color: EmbedColors.Green
-                }]
-            });
         }
+
+        await player.skip(position, false);
+        await ctx.write({
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} Skipped ${position ? `to track [${targetTrack?.info.title}](${targetTrack?.info.uri})` : `[${targetTrack?.info.title}](${targetTrack?.info.uri})`}.`,
+            }]
+        });
     }
 }

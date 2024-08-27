@@ -1,7 +1,7 @@
 import { Command, type CommandContext, Declare, Middlewares, Options, createBooleanOption } from "seyfert";
 
 const options = {
-    enabled: createBooleanOption({
+    toggle: createBooleanOption({
         description: "Enable or disable the autoplay feature.",
         required: true,
     }),
@@ -13,7 +13,7 @@ const options = {
     aliases: ["ap"],
     props: {
         usage: "autoplay <true | false | yes | no>",
-        examples: ["autoplay true/false", "autoplay yes/no"],
+        examples: ["autoplay true", "autoplay no"],
     },
     integrationTypes: ["GuildInstall"],
     contexts: ["Guild"],
@@ -23,12 +23,16 @@ const options = {
 export default class AutoplayCommand extends Command {
     async run(ctx: CommandContext<typeof options>) {
         const { client, options, guildId } = ctx;
-        const { enabled } = options;
+        const { toggle } = options;
 
         const player = client.manager.getPlayer(guildId!);
+        player.set("enabledAutoplay", toggle);
 
-        player.set("enabledAutoplay", enabled);
-
-        await ctx.editOrReply({ content: `The autoplay feature has been ${enabled ? "enabled" : "disabled"}.` });
+        await ctx.write({
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} Autoplay has been ${toggle ? "enabled" : "disabled"}.`,
+            }]
+        });
     }
 }

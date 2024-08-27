@@ -23,20 +23,35 @@ export default class VolumeCommand extends Command {
         const { volume } = options;
 
         const player = client.manager.getPlayer(ctx.guildId!);
-        let response = `The volume has been set to \`${volume}\`.`;
 
         if (volume === 1) {
-            await player.setVolume(volume).then(async () => await player.pause());
+            await player.setVolume(volume);
+            await player.pause();
 
-            response += "\nBecause of this, the player has been paused.";
+            await ctx.write({
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} The volume has been set to \`${volume}\` and the player has been paused.`,
+                }]
+            });
         } else if (volume > 1 && player.paused) {
             await player.resume();
             await player.setVolume(volume);
+
+            await ctx.write({
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} The volume has been set to \`${volume}\` and the player has been resumed.`,
+                }]
+            });
         }
 
         await player.setVolume(volume);
-        await ctx.editOrReply({
-            content: response,
+        await ctx.write({
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} The volume has been set to \`${volume}\`.`,
+            }]
         });
     }
 }

@@ -15,7 +15,10 @@ export const checkPermissions = createMiddleware<void>(async ({ context, next, p
     if (missings.length) {
         await context.editOrReply({
             flags: MessageFlags.Ephemeral,
-            content: `❌ I am missing the following permissions to play music in <#${voice?.id}>: ${missings.join(", ")}`,
+            embeds: [{
+                color: client.config.colors.error,
+                description: `${client.config.emojis.error} I am missing the following permissions to play music in <#${voice?.id}>: ${missings.join(", ")}`
+            }]
         });
 
         return pass();

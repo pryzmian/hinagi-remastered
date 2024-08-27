@@ -1,5 +1,4 @@
 import { Command, type CommandContext, Declare, Middlewares } from "seyfert";
-import { EmbedColors } from "seyfert/lib/common";
 
 @Declare({
     name: "stop",
@@ -14,6 +13,11 @@ export default class ExampleCommand extends Command {
         const player = client.manager.getPlayer(ctx.guildId!);
 
         await player.destroy();
-        await ctx.editOrReply({ embeds: [{ description: "Stopped the queue!", color: EmbedColors.Green }] });
+        await ctx.write({
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} Queue stopped!`,
+            }]
+        });
     }
 }

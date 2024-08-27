@@ -15,10 +15,10 @@ export default class ShuffleCommand extends Command {
         const player = client.manager.getPlayer(ctx.guildId!);
 
         await player.queue.shuffle();
-        await ctx.editOrReply({
+        await ctx.write({
             embeds: [{
-                description: "The queue has been shuffled!",
                 color: client.config.colors.success,
+                description: `${client.config.emojis.success} Queue shuffled!`,
             }],
         });
     }

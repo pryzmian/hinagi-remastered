@@ -3,6 +3,7 @@ import { Lavalink } from "../../structures/Lavalink";
 import { ButtonStyle } from "seyfert/lib/types";
 import type { CommandContext, User } from "seyfert";
 import { ActionRow, Button } from "seyfert";
+import { parseTime } from "../../utils/functions/parseTime";
 
 export default new Lavalink({
     name: "trackStart",
@@ -30,14 +31,9 @@ export default new Lavalink({
             components: [row],
             embeds: [{
                 color: client.config.colors.success,
-                author: {
-                    name: (track.requester as User).username ?? "",
-                    icon_url: (track.requester as User).avatarURL() ?? null
-                },
-                description: `**Now playing ♪**\n[**${track.info.title}**](${track.info.uri})`,
-                thumbnail: {
-                    url: track.info.artworkUrl ?? ""
-                }
+                title: "Now playing",
+                description: `${client.config.emojis.playing} [**${track.info.title}**](${track.info.uri})\n**Duration:** ${track.info.isStream ? "\`🔴 Live Stream\`" : `\`${parseTime(track.info.duration) }\``}\n**Requested by:** ${track.requester}`,
+                thumbnail: { url: track.info.artworkUrl ?? "" }
             }]
         }).catch(() => null);
 

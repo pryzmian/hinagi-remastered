@@ -11,16 +11,8 @@ export default class PauseButton extends ComponentCommand {
     }
 
     async run(ctx: ComponentContext<typeof this.componentType>) {
-        const { client, guildId, interaction } = ctx;
-
+        const { client, guildId } = ctx;
         const player = client.manager.getPlayer(guildId!);
-        const messageId = player.get("messageId") ?? "";
-
-        if (interaction.message.id !== messageId)
-            return await ctx.interaction.editOrReply({
-                flags: MessageFlags.Ephemeral,
-                content: "❌ This track is no longer in the queue.",
-            });
 
         if (player.paused) await player.resume();
         else if (player.playing) await player.pause();
