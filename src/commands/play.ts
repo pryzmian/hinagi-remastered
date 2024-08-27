@@ -118,16 +118,6 @@ export default class PlayCommand extends Command {
                     if (!player.playing) await player.play();
                 }
                 break;
-            default: {
-                await ctx.editOrReply({
-                    embeds: [
-                        {
-                            color: client.config.colors.error,
-                            description: `${client.config.emojis.error} An unknown error occurred, if this persists please contact support.`,
-                        },
-                    ],
-                });
-            }
         }
     }
 }
