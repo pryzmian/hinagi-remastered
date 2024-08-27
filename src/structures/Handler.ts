@@ -9,7 +9,7 @@ const isDev = process.argv.includes("--dev");
 const output = isWindows && isDev ? "src" : "dist";
 
 export class Handler extends BaseHandler {
-    // biome-ignore lint/style/noParameterProperties: <explanation>
+    // biome-ignore lint/style/noParameterProperties: biome truco
     constructor(private client: UsingClient) {
         super(client.logger);
     }
@@ -22,7 +22,8 @@ export class Handler extends BaseHandler {
             const path = file.path.split(process.cwd()).slice(1).join(process.cwd());
             const event: Lavalink = file.file.default;
 
-            if (!(event && event instanceof Lavalink)) {
+            // biome-ignore lint/complexity/useSimplifiedLogicExpression: biome doesn't like this
+            if (!event || !(event instanceof Lavalink)) {
                 this.logger.warn(`${path} doesn't export by \`export default new Lavalink({ ... })\``);
                 continue;
             }
