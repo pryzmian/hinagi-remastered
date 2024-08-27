@@ -1,10 +1,10 @@
-import { MessageFlags } from "seyfert/lib/types";
 import { createMiddleware } from "seyfert";
+import { MessageFlags } from "seyfert/lib/types";
 
 export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, pass }) => {
     const { member, client } = context;
 
-    const voice = client.cache.voiceStates?.get(member?.id!, context.guildId!)
+    const voice = client.cache.voiceStates?.get(member?.id!, context.guildId!);
     const botChannel = await client.cache.voiceStates?.get(client.me?.id!, context.guildId!)?.channel();
 
     if (!voice) {

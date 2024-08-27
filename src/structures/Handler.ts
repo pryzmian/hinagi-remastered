@@ -3,6 +3,11 @@ import type { UsingClient } from "seyfert";
 import { BaseHandler } from "seyfert/lib/common";
 import { Lavalink } from "./Lavalink";
 
+const isWindows = process.platform === "win32";
+const isDev = process.argv.includes("--dev");
+
+const output = isWindows && isDev ? "src" : "dist";
+
 export class Handler extends BaseHandler {
     // biome-ignore lint/style/noParameterProperties: biome truco
     constructor(private client: UsingClient) {
@@ -10,7 +15,7 @@ export class Handler extends BaseHandler {
     }
 
     async load() {
-        const eventsDir = resolve("dist", "lavalink");
+        const eventsDir = resolve(output, "lavalink");
         const files = await this.loadFilesK<{ default: Lavalink }>(await this.getFiles(eventsDir));
 
         for await (const file of files) {
