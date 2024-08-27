@@ -88,7 +88,7 @@ export default class PlayCommand extends Command {
 
             case "playlist":
                 {
-                    player.queue.add(tracks);
+                    await player.queue.add(tracks);
                     await ctx.editOrReply({
                         embeds: [
                             {
@@ -105,7 +105,7 @@ export default class PlayCommand extends Command {
             case "search":
             case "track":
                 {
-                    player.queue.add(tracks[0]);
+                    await player.queue.add(tracks[0]);
                     await ctx.editOrReply({
                         embeds: [
                             {
