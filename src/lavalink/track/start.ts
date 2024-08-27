@@ -1,8 +1,8 @@
 import { Lavalink } from "../../structures/Lavalink";
 
-import { ButtonStyle } from "seyfert/lib/types";
-import type { CommandContext, User } from "seyfert";
+import type { CommandContext } from "seyfert";
 import { ActionRow, Button } from "seyfert";
+import { ButtonStyle } from "seyfert/lib/types";
 import { parseTime } from "../../utils/functions/parseTime";
 
 export default new Lavalink({
@@ -27,15 +27,19 @@ export default new Lavalink({
             new Button().setCustomId("queue-button").setEmoji(client.config.emojis.queue).setStyle(ButtonStyle.Primary),
         );
 
-        const message = await client.messages.write(player.textChannelId, {
-            components: [row],
-            embeds: [{
-                color: client.config.colors.success,
-                title: "Now playing",
-                description: `${client.config.emojis.playing} [**${track.info.title}**](${track.info.uri})\n**Duration:** ${track.info.isStream ? "\`🔴 Live Stream\`" : `\`${parseTime(track.info.duration) }\``}\n**Requested by:** ${track.requester}`,
-                thumbnail: { url: track.info.artworkUrl ?? "" }
-            }]
-        }).catch(() => null);
+        const message = await client.messages
+            .write(player.textChannelId, {
+                components: [row],
+                embeds: [
+                    {
+                        color: client.config.colors.success,
+                        title: "Now playing",
+                        description: `${client.config.emojis.playing} [**${track.info.title}**](${track.info.uri})\n**Duration:** ${track.info.isStream ? "`🔴 Live Stream`" : `\`${parseTime(track.info.duration)}\``}\n**Requested by:** ${track.requester}`,
+                        thumbnail: { url: track.info.artworkUrl ?? "" },
+                    },
+                ],
+            })
+            .catch(() => null);
 
         if (message) player.set("messageId", message.id);
     },

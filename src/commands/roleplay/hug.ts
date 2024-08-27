@@ -25,25 +25,29 @@ export default class HugCommand extends Command {
         const member = await client.members.fetch(guildId!, user.id);
         if (!member)
             return ctx.editOrReply({
-                embeds: [{
+                embeds: [
+                    {
+                        color: client.config.colors.success,
+                        description: `**${author.toString()}** I couldn't find that user. But I can give you a hug!`,
+                        image: {
+                            url: `${(await nekoClient.hug()).url}`,
+                        },
+                        timestamp: new Date().toISOString(),
+                    },
+                ],
+            });
+
+        return ctx.editOrReply({
+            embeds: [
+                {
                     color: client.config.colors.success,
-                    description: `**${author.toString()}** I couldn't find that user. But I can give you a hug!`,
+                    description: `**${author.toString()}** gave **${member.toString()}** a hug!`,
                     image: {
                         url: `${(await nekoClient.hug()).url}`,
                     },
                     timestamp: new Date().toISOString(),
-                }],
-            });
-
-        return ctx.editOrReply({
-            embeds: [{
-                color: client.config.colors.success,
-                description: `**${author.toString()}** gave **${member.toString()}** a hug!`,
-                image: {
-                    url: `${(await nekoClient.hug()).url}`,
                 },
-                timestamp: new Date().toISOString(),
-            }],
+            ],
         });
     }
 }

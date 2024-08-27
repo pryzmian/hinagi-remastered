@@ -1,55 +1,53 @@
 {
-  "name": "hinagibot",
-  "version": "1.0.0",
-  "description": "discord bot Bv",
-  "main": "dist/index.js",
-  "keywords": [
-    "discord-bot"
-  ],
-  "license": "Apache-2.0",
-  "homepage": "https://github.com/pryzmian/hinagi-remastered#readme",
-  "scripts": {
-    "start": "node .",
-    "dev": "tsx ./src/index.ts --dev",
-    "build": "tsc",
-    "format": "biome check --write .",
-    "prepare": "husky"
-  },
-  "lint-staged": [
-    "biome check --write ."
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pryzmian/hinagi-remastered.git"
-  },
-  "author": {
-    "name": "Pryzmian",
-    "url": "https://github.com/pryzmian"
-  },
-  "bugs": {
-    "url": "https://github.com/pryzmian/hinagi-remastered/issues"
-  },
-  "contributors": [
-    {
-      "name": "JustEvil",
-      "url": "https://github.com/EvilG-MC"
+    "name": "hinagibot",
+    "version": "1.0.0",
+    "description": "discord bot Bv",
+    "main": "dist/index.js",
+    "keywords": ["discord-bot"],
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/pryzmian/hinagi-remastered#readme",
+    "scripts": {
+        "start": "node .",
+        "dev": "tsx ./src/index.ts --dev",
+        "build": "tsc",
+        "format": "biome check --write .",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        ".{ts,json}": ["biome check --write ."]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pryzmian/hinagi-remastered.git"
+    },
+    "author": {
+        "name": "Pryzmian",
+        "url": "https://github.com/pryzmian"
+    },
+    "bugs": {
+        "url": "https://github.com/pryzmian/hinagi-remastered/issues"
+    },
+    "contributors": [
+        {
+            "name": "JustEvil",
+            "url": "https://github.com/EvilG-MC"
+        }
+    ],
+    "dependencies": {
+        "@google/generative-ai": "0.3.1",
+        "dotenv": "16.4.5",
+        "lavalink-client": "github:tomato6966/lavalink-client",
+        "mongoose": "8.2.4",
+        "nekos.life": "3.0.0",
+        "seyfert": "github:tiramisulabs/seyfert",
+        "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert#dev"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.8.3",
+        "@types/node": "20.11.30",
+        "husky": "^9.1.5",
+        "lint-staged": "^15.2.9",
+        "tsx": "^4.18.0",
+        "typescript": "5.4.3"
     }
-  ],
-  "dependencies": {
-    "@google/generative-ai": "0.3.1",
-    "dotenv": "16.4.5",
-    "lavalink-client": "github:tomato6966/lavalink-client",
-    "mongoose": "8.2.4",
-    "nekos.life": "3.0.0",
-    "seyfert": "github:tiramisulabs/seyfert",
-    "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert#dev"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
-    "@types/node": "20.11.30",
-    "husky": "^9.1.5",
-    "lint-staged": "^15.2.9",
-    "tsx": "^4.18.0",
-    "typescript": "5.4.3"
-  }
 }
