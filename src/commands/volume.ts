@@ -29,35 +29,29 @@ export default class VolumeCommand extends Command {
             await player.pause();
 
             await ctx.write({
-                embeds: [
-                    {
-                        color: client.config.colors.success,
-                        description: `${client.config.emojis.success} The volume has been set to \`${volume}\` and the player has been paused.`,
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} The volume has been set to \`${volume}\` and the player has been paused.`,
+                }]
             });
         } else if (volume > 1 && player.paused) {
             await player.resume();
             await player.setVolume(volume);
 
             await ctx.write({
-                embeds: [
-                    {
-                        color: client.config.colors.success,
-                        description: `${client.config.emojis.success} The volume has been set to \`${volume}\` and the player has been resumed.`,
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} The volume has been set to \`${volume}\` and the player has been resumed.`,
+                }]
             });
         }
 
         await player.setVolume(volume);
         await ctx.write({
-            embeds: [
-                {
-                    color: client.config.colors.success,
-                    description: `${client.config.emojis.success} The volume has been set to \`${volume}\`.`,
-                },
-            ],
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} The volume has been set to \`${volume}\`.`,
+            }]
         });
     }
 }

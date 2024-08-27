@@ -1,5 +1,6 @@
 import type { ComponentContext } from "seyfert";
 import { ComponentCommand, Middlewares } from "seyfert";
+import { MessageFlags } from "seyfert/lib/types";
 
 @Middlewares(["checkVoiceChannel", "checkQueueExists", "checkTrackExists"])
 export default class PauseButton extends ComponentCommand {

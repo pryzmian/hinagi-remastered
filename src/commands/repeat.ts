@@ -37,12 +37,10 @@ export default class RepeatCommand extends Command {
 
         await player.setRepeatMode(mode as RepeatMode);
         await ctx.write({
-            embeds: [
-                {
-                    color: client.config.colors.success,
-                    description: `${client.config.emojis.success} Repeat mode set to ${repeatType[mode as RepeatMode]}`,
-                },
-            ],
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} Repeat mode set to ${repeatType[mode as RepeatMode]}`,
+            }],
         });
     }
 }
