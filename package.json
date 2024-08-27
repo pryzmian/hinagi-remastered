@@ -14,7 +14,7 @@
         "prepare": "husky"
     },
     "lint-staged": {
-        ".{ts,json}": ["biome check --write ."]
+        "*.{ts,json}": ["biome check --write ."]
     },
     "repository": {
         "type": "git",
