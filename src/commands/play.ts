@@ -52,7 +52,7 @@ export default class PlayCommand extends Command {
         const { client, options, member, author } = ctx;
         const { query } = options;
 
-        const voice = client.cache.voiceStates?.get(member?.id!, ctx.guildId!)
+        const voice = client.cache.voiceStates?.get(member?.id!, ctx.guildId!);
 
         await ctx.deferReply();
 
@@ -71,51 +71,61 @@ export default class PlayCommand extends Command {
 
         switch (loadType) {
             case "empty":
-            case "error": {
-                if (!player.queue.current) await player.destroy();
+            case "error":
+                {
+                    if (!player.queue.current) await player.destroy();
 
-                await ctx.editOrReply({
-                    embeds: [{
-                        color: client.config.colors.error,
-                        description: `${client.config.emojis.error} No results found for ${query}!`,
-                    }]
-                });
-            }
+                    await ctx.editOrReply({
+                        embeds: [
+                            {
+                                color: client.config.colors.error,
+                                description: `${client.config.emojis.error} No results found for ${query}!`,
+                            },
+                        ],
+                    });
+                }
                 break;
 
-            case "playlist": {
+            case "playlist":
+                {
+                    player.queue.add(tracks);
+                    await ctx.editOrReply({
+                        embeds: [
+                            {
+                                color: client.config.colors.success,
+                                description: `${client.config.emojis.success} Queued playlist [${playlist?.title}](${playlist?.uri ?? query}) with \`${tracks.length}\` songs!`,
+                            },
+                        ],
+                    });
 
-                player.queue.add(tracks);
-                await ctx.editOrReply({
-                    embeds: [{
-                        color: client.config.colors.success,
-                        description: `${client.config.emojis.success} Queued playlist [${playlist?.title}](${playlist?.uri ?? query}) with \`${tracks.length}\` songs!`,
-                    }]
-                });
-
-                if (!player.playing) await player.play();
-            }
+                    if (!player.playing) await player.play();
+                }
                 break;
 
             case "search":
-            case "track": {
-                player.queue.add(tracks[0]);
-                await ctx.editOrReply({
-                    embeds: [{
-                        color: client.config.colors.success,
-                        description: `${client.config.emojis.success} Queued [${tracks[0].info.title}](${tracks[0].info.uri})!`,
-                    }]
-                });
+            case "track":
+                {
+                    player.queue.add(tracks[0]);
+                    await ctx.editOrReply({
+                        embeds: [
+                            {
+                                color: client.config.colors.success,
+                                description: `${client.config.emojis.success} Queued [${tracks[0].info.title}](${tracks[0].info.uri})!`,
+                            },
+                        ],
+                    });
 
-                if (!player.playing) await player.play();
-            }
+                    if (!player.playing) await player.play();
+                }
                 break;
             default: {
                 await ctx.editOrReply({
-                    embeds: [{
-                        color: client.config.colors.error,
-                        description: `${client.config.emojis.error} An unknown error occurred, if this persists please contact support.`,
-                    }]
+                    embeds: [
+                        {
+                            color: client.config.colors.error,
+                            description: `${client.config.emojis.error} An unknown error occurred, if this persists please contact support.`,
+                        },
+                    ],
                 });
             }
         }

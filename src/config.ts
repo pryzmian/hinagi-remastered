@@ -23,9 +23,9 @@ export interface HinagiConfig {
 
 export const Configuration: HinagiConfig = {
     colors: {
-        error: 0xF44336,
-        success: 0x2196F3,
-        warning: 0xFFC107
+        error: 0xf44336,
+        success: 0x2196f3,
+        warning: 0xffc107,
     },
     prefixes: ["hina", "h!", "hinagi"],
     emojis: {
@@ -37,7 +37,7 @@ export const Configuration: HinagiConfig = {
         next: "<:next:1223972671738609676>",
         stop: "<:stop:1230898078601449483>",
         queue: "<:queue:1231066304782274645>",
-        playing: "<:musicalnote:1277802192551547012>"
+        playing: "<:musicalnote:1277802192551547012>",
     },
     nodes: [
         {
@@ -45,6 +45,6 @@ export const Configuration: HinagiConfig = {
             host: process.env.LAVALINK_HOST!,
             port: Number(process.env.LAVALINK_PORT),
             authorization: process.env.LAVALINK_AUTHORIZATION!,
-        }
-    ]
+        },
+    ],
 };

@@ -1,6 +1,5 @@
-import { MessageFlags } from "seyfert/lib/types";
 import { Command, type CommandContext, Declare, Middlewares, Options, createIntegerOption } from "seyfert";
-import { EmbedColors } from "seyfert/lib/common";
+import { MessageFlags } from "seyfert/lib/types";
 
 const options = {
     position: createIntegerOption({
@@ -29,19 +28,23 @@ export default class ExampleCommand extends Command {
         if (position && position > player.queue.tracks.length) {
             return ctx.editOrReply({
                 flags: MessageFlags.Ephemeral,
-                embeds: [{
-                    color: client.config.colors.error,
-                    description: `${client.config.emojis.error} The track at position ${position} does not exist!`,
-                }],
+                embeds: [
+                    {
+                        color: client.config.colors.error,
+                        description: `${client.config.emojis.error} The track at position ${position} does not exist!`,
+                    },
+                ],
             });
         }
 
         await player.skip(position, false);
         await ctx.write({
-            embeds: [{
-                color: client.config.colors.success,
-                description: `${client.config.emojis.success} Skipped ${position ? `to track [${targetTrack?.info.title}](${targetTrack?.info.uri})` : `[${targetTrack?.info.title}](${targetTrack?.info.uri})`}.`,
-            }]
+            embeds: [
+                {
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} Skipped ${position ? `to track [${targetTrack?.info.title}](${targetTrack?.info.uri})` : `[${targetTrack?.info.title}](${targetTrack?.info.uri})`}.`,
+                },
+            ],
         });
     }
 }
