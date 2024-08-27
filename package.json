@@ -10,7 +10,7 @@
   "homepage": "https://github.com/pryzmian/hinagi-remastered#readme",
   "scripts": {
     "start": "node .",
-    "dev": "tsc-watch --onSuccess \"node .\"",
+    "dev": "tsx ./src/index.ts --dev",
     "build": "tsc",
     "format": "biome check --write .",
     "prepare": "husky"
@@ -37,7 +37,6 @@
   ],
   "dependencies": {
     "@google/generative-ai": "0.3.1",
-    "discord-api-types": "0.37.87",
     "dotenv": "16.4.5",
     "lavalink-client": "github:tomato6966/lavalink-client",
     "mongoose": "8.2.4",
@@ -50,7 +49,7 @@
     "@types/node": "20.11.30",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.9",
-    "tsc-watch": "6.2.0",
+    "tsx": "^4.18.0",
     "typescript": "5.4.3"
   }
 }

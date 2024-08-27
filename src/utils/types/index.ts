@@ -1,10 +1,8 @@
 import type {
     CommandContext,
     ComponentContext,
-    ExtraProps,
     MenuCommandContext,
     MessageCommandInteraction,
-    MiddlewareContext,
     ModalContext,
     ParseClient,
     ParseMiddlewares,
