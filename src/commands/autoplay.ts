@@ -29,12 +29,10 @@ export default class AutoplayCommand extends Command {
         player.set("enabledAutoplay", toggle);
 
         await ctx.write({
-            embeds: [
-                {
-                    color: client.config.colors.success,
-                    description: `${client.config.emojis.success} Autoplay has been ${toggle ? "enabled" : "disabled"}.`,
-                },
-            ],
+            embeds: [{
+                color: client.config.colors.success,
+                description: `${client.config.emojis.success} Autoplay has been ${toggle ? "enabled" : "disabled"}.`,
+            }]
         });
     }
 }

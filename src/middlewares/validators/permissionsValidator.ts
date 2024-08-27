@@ -1,5 +1,5 @@
-import { createMiddleware } from "seyfert";
 import { MessageFlags } from "seyfert/lib/types";
+import { createMiddleware } from "seyfert";
 
 export const checkPermissions = createMiddleware<void>(async ({ context, next, pass }) => {
     const { client, member } = context;
@@ -15,12 +15,10 @@ export const checkPermissions = createMiddleware<void>(async ({ context, next, p
     if (missings.length) {
         await context.editOrReply({
             flags: MessageFlags.Ephemeral,
-            embeds: [
-                {
-                    color: client.config.colors.error,
-                    description: `${client.config.emojis.error} I am missing the following permissions to play music in <#${voice?.id}>: ${missings.join(", ")}`,
-                },
-            ],
+            embeds: [{
+                color: client.config.colors.error,
+                description: `${client.config.emojis.error} I am missing the following permissions to play music in <#${voice?.id}>: ${missings.join(", ")}`
+            }]
         });
 
         return pass();

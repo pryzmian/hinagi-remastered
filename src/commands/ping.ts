@@ -1,3 +1,4 @@
+import { MessageFlags } from "seyfert/lib/types";
 import { Command, type CommandContext, Declare } from "seyfert";
 
 @Declare({
@@ -15,12 +16,10 @@ export default class PingCommand extends Command {
         const { client } = ctx;
 
         await ctx.write({
-            embeds: [
-                {
-                    color: client.config.colors.success,
-                    description: `🏓 Pong! Latency is **${Math.floor(client.gateway.latency)}ms**.`,
-                },
-            ],
+            embeds: [{
+                color: client.config.colors.success,
+                description: `🏓 Pong! Latency is **${Math.floor(client.gateway.latency)}ms**.`,
+            }]
         });
     }
 }

@@ -1,7 +1,7 @@
 import { Command, type CommandContext, Declare, Embed, Middlewares } from "seyfert";
-import { MessageFlags } from "seyfert/lib/types";
 import { EmbedPaginator } from "../structures/Paginator";
 import { parseTime } from "../utils/functions/parseTime";
+import { MessageFlags } from "seyfert/lib/types";
 
 @Declare({
     name: "queue",
@@ -16,8 +16,8 @@ export default class QueueCommand extends Command {
         const { client } = ctx;
         const player = client.manager.getPlayer(ctx.guildId!);
         const tracksPerPage = 10;
-        const tracks = player.queue.tracks.map(
-            ({ info }, index) => `**${index + 1}.** \`${parseTime(info.duration!)}\` | [**${info.title}**](${info.uri})`,
+        const tracks = player.queue.tracks.map(({ info }, index) =>
+            `**${index + 1}.** \`${parseTime(info.duration!)}\` | [**${info.title}**](${info.uri})`
         );
         const current = player.queue.current;
         const paginator = new EmbedPaginator(ctx);
@@ -27,24 +27,20 @@ export default class QueueCommand extends Command {
         if (tracks.length === 0) {
             return ctx.write({
                 flags: MessageFlags.Ephemeral,
-                embeds: [
-                    {
-                        color: client.config.colors.success,
-                        description: `${nowPlayingDescription}No tracks in queue. Add some tracks with the \`play\` command.`,
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    description: `${nowPlayingDescription}No tracks in queue. Add some tracks with the \`play\` command.`,
+                }],
             });
         }
 
         if (tracks.length < tracksPerPage) {
             await ctx.write({
-                embeds: [
-                    {
-                        color: client.config.colors.success,
-                        thumbnail: { url: current?.info.artworkUrl ?? "" },
-                        description: nowPlayingDescription + tracks.join("\n"),
-                    },
-                ],
+                embeds: [{
+                    color: client.config.colors.success,
+                    thumbnail: { url: current?.info.artworkUrl ?? "" },
+                    description: nowPlayingDescription + tracks.join("\n"),
+                }],
             });
         } else {
             for (let i = 0; i < tracks.length; i += tracksPerPage) {
@@ -52,7 +48,7 @@ export default class QueueCommand extends Command {
                     new Embed()
                         .setColor(client.config.colors.success)
                         .setThumbnail(current?.info.artworkUrl ?? "")
-                        .setDescription(nowPlayingDescription + tracks.slice(i, i + tracksPerPage).join("\n")),
+                        .setDescription(nowPlayingDescription + tracks.slice(i, i + tracksPerPage).join("\n"))
                 );
             }
 

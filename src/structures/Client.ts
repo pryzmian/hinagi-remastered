@@ -27,24 +27,19 @@ export class HinagiClient extends Client<true> {
                 defaults: {
                     async onOptionsError(context, metadata) {
                         const { client } = context;
-                        const errorString = Object.entries(metadata)
-                            .filter((_) => _[1].failed)
-                            .map((error) => `❌ The option \`${error[0]}\` is required but got \`undefined\`!`)
-                            .join("\n");
+                        const errorString = Object.entries(metadata).filter((_) => _[1].failed).map((error) => `❌ The option \`${error[0]}\` is required but got \`undefined\`!`).join("\n");
                         const commandProps = getCommandProps(context);
 
                         await context.editOrReply({
-                            embeds: [
-                                {
-                                    color: client.config.colors.warning,
-                                    title: "Invalid command usage!",
-                                    description: `${errorString}\n\n${commandProps}`,
-                                    footer: {
-                                        text: "Note: <> means required, [] means optional.",
-                                    },
-                                    timestamp: new Date().toISOString(),
+                            embeds: [{
+                                color: client.config.colors.warning,
+                                title: "Invalid command usage!",
+                                description: `${errorString}\n\n${commandProps}`,
+                                footer: {
+                                    text: "Note: <> means required, [] means optional.",
                                 },
-                            ],
+                                timestamp: new Date().toISOString(),
+                            }],
                         });
                     },
                 },
