@@ -39,7 +39,7 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
         );
 
     const requester = ctx.client.me;
-
+    
     if (lastTrack.info.sourceName === "spotify") {
         const filtered = player.queue.previous.filter(({ info }) => info.sourceName === "spotify").slice(0, 1);
         if (!filtered.length) filtered.push(lastTrack);
@@ -59,6 +59,6 @@ export async function autoPlayFunction(player: Player, lastTrack?: Track): Promi
             const random = Math.floor(Math.random() * res.tracks.length);
             const tracks = filterTracks(res.tracks).slice(random, random + maxTracks) as Track[];
             await player.queue.add(tracks);
-        }
+        }   
     }
 }
