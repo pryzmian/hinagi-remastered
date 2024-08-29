@@ -3,21 +3,27 @@ import type { UsingClient } from "seyfert";
 import { BaseHandler } from "seyfert/lib/common";
 import { Lavalink } from "./Lavalink";
 
+const isWindows = process.platform === "win32";
+const isDev = process.argv.includes("--dev");
+
+const output = isWindows && isDev ? "src" : "dist";
+
 export class Handler extends BaseHandler {
-    // biome-ignore lint/style/noParameterProperties: <explanation>
+    // biome-ignore lint/style/noParameterProperties: biome truco
     constructor(private client: UsingClient) {
         super(client.logger);
     }
 
     async load() {
-        const eventsDir = resolve("dist", "lavalink");
+        const eventsDir = resolve(output, "lavalink");
         const files = await this.loadFilesK<{ default: Lavalink }>(await this.getFiles(eventsDir));
 
         for await (const file of files) {
             const path = file.path.split(process.cwd()).slice(1).join(process.cwd());
             const event: Lavalink = file.file.default;
 
-            if (!(event && event instanceof Lavalink)) {
+            // biome-ignore lint/complexity/useSimplifiedLogicExpression: biome doesn't like this
+            if (!event || !(event instanceof Lavalink)) {
                 this.logger.warn(`${path} doesn't export by \`export default new Lavalink({ ... })\``);
                 continue;
             }

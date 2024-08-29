@@ -14,10 +14,12 @@ export default class ExampleCommand extends Command {
 
         await player.destroy();
         await ctx.write({
-            embeds: [{
-                color: client.config.colors.success,
-                description: `${client.config.emojis.success} Queue stopped!`,
-            }]
+            embeds: [
+                {
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} Queue stopped!`,
+                },
+            ],
         });
     }
 }

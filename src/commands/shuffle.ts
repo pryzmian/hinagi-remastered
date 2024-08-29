@@ -16,10 +16,12 @@ export default class ShuffleCommand extends Command {
 
         await player.queue.shuffle();
         await ctx.write({
-            embeds: [{
-                color: client.config.colors.success,
-                description: `${client.config.emojis.success} Queue shuffled!`,
-            }],
+            embeds: [
+                {
+                    color: client.config.colors.success,
+                    description: `${client.config.emojis.success} Queue shuffled!`,
+                },
+            ],
         });
     }
 }
