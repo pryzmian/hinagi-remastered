@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import type { UsingClient } from "seyfert";
 import { BaseHandler } from "seyfert/lib/common";
-import { Lavalink } from "./Lavalink";
+import type { Lavalink } from "./Lavalink";
 
 const isWindows = process.platform === "win32";
 const isDev = process.argv.includes("--dev");
@@ -22,14 +22,18 @@ export class Handler extends BaseHandler {
             const path = file.path.split(process.cwd()).slice(1).join(process.cwd());
             const event: Lavalink = file.file.default;
 
-            // biome-ignore lint/complexity/useSimplifiedLogicExpression: biome doesn't like this
-            if (!event || !(event instanceof Lavalink)) {
+            if (!event) {
                 this.logger.warn(`${path} doesn't export by \`export default new Lavalink({ ... })\``);
                 continue;
             }
 
             if (!event.name) {
                 this.logger.warn(`${path} doesn't have a \`name\``);
+                continue;
+            }
+
+            if (typeof event.run !== "function") {
+                this.logger.warn(`${path} doesn't have a \`run\` function`);
                 continue;
             }
 
