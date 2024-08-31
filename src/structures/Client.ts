@@ -11,6 +11,17 @@ import { Manager } from "./Manager";
 
 import getCommandProps from "../utils/functions/getCommandProps";
 
+const RANDOM_RESPONSES = [
+    "Beep boop! Doing the thing...",
+    ":thinking:",
+    "I'm on it!",
+    "Sure thing!",
+    "Got it!",
+    "Alright!",
+    "Processing...",
+    "*Makes machine noises*",
+];
+
 export class HinagiClient extends Client<true> {
     readonly manager: Manager;
     readonly config: HinagiConfig = Configuration;
@@ -23,7 +34,14 @@ export class HinagiClient extends Client<true> {
             commands: {
                 reply: () => true,
                 prefix: () => this.config.prefixes,
-                deferReplyResponse: ({ client }) => ({ content: `**${client.me?.username}** is thinking...` }),
+                deferReplyResponse: ({ client }) => ({
+                    embeds: [
+                        {
+                            color: client.config.colors.transparent,
+                            description: RANDOM_RESPONSES[Math.floor(Math.random() * RANDOM_RESPONSES.length)],
+                        },
+                    ],
+                }),
                 defaults: {
                     async onOptionsError(context, metadata) {
                         const { client } = context;

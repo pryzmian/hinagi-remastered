@@ -7,10 +7,13 @@ import { Command, type CommandContext, Declare, Middlewares } from "seyfert";
     contexts: ["Guild"],
 })
 @Middlewares(["checkVoiceChannel", "checkQueueExists"])
-export default class ExampleCommand extends Command {
+export default class StopCommand extends Command {
     async run(ctx: CommandContext) {
         const { client } = ctx;
         const player = client.manager.getPlayer(ctx.guildId!);
+
+        const playingMessage = player.get<string>("messageId");
+        if (playingMessage) await client.messages.delete(playingMessage, player.textChannelId!);
 
         await player.destroy();
         await ctx.write({

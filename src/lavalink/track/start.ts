@@ -24,6 +24,7 @@ export default new Lavalink({
             new Button().setCustomId("previous-button").setEmoji(client.config.emojis.previous).setStyle(ButtonStyle.Secondary),
             new Button().setCustomId("pause-button").setEmoji(client.config.emojis.pause).setStyle(ButtonStyle.Secondary),
             new Button().setCustomId("skip-button").setEmoji(client.config.emojis.next).setStyle(ButtonStyle.Secondary),
+            new Button().setCustomId("stop-button").setEmoji(client.config.emojis.stop).setStyle(ButtonStyle.Danger),
             new Button().setCustomId("queue-button").setEmoji(client.config.emojis.queue).setStyle(ButtonStyle.Primary),
         );
 

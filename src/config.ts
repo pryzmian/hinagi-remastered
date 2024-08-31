@@ -5,6 +5,7 @@ export interface HinagiConfig {
         error: number;
         success: number;
         warning: number;
+        transparent: number;
     };
     prefixes: string[];
     emojis: {
@@ -26,6 +27,7 @@ export const Configuration: HinagiConfig = {
         error: 0xf44336,
         success: 0x2196f3,
         warning: 0xffc107,
+        transparent: 0x2f3136, // not really transparent, but it's the color of the dark theme background
     },
     prefixes: ["hina", "h!", "hinagi"],
     emojis: {
