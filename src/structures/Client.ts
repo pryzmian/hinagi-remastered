@@ -86,6 +86,19 @@ export class HinagiClient extends Client<true> {
                     },
                 });
             },
+            cache: {
+                disabledCache: {
+                    overwrites: true,
+                    roles: true,
+                    emojis: true,
+                    channels: true,
+                    threads: true,
+                    stickers: true,
+                    presences: true,
+                    stageInstances: true,
+                    bans: true,
+                },
+            },
         });
 
         await this.start();
