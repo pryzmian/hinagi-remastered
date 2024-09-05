@@ -21,7 +21,7 @@ export default class AboutCommand extends Command {
         const totalUsers = client.cache.users?.count() ?? 0;
 
         // System information
-        const memoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
+        const memoryUsage = process.memoryUsage().rss / 1024 / 1024;
         const cpuUsage = formatCpuUsage();
         const uptime = formatSeconds(process.uptime());
 
