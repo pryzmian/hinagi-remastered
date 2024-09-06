@@ -38,7 +38,6 @@
         "dotenv": "16.4.5",
         "iovalkey": "^0.1.0",
         "lavalink-client": "github:tomato6966/lavalink-client",
-        "nekos.life": "3.0.0",
         "seyfert": "github:tiramisulabs/seyfert",
         "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert"
     },

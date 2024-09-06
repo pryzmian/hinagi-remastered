@@ -4,6 +4,7 @@ export interface HinagiConfig {
     prefixes: string[];
     defaultLanguage: string;
     defaultPrefix: string;
+    nodes: LavalinkNodeOptions[];
     colors: {
         error: number;
         success: number;
@@ -22,7 +23,6 @@ export interface HinagiConfig {
         queue: string;
         playing: string;
     };
-    nodes: LavalinkNodeOptions[];
 }
 
 export const Configuration: HinagiConfig = {

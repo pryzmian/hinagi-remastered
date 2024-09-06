@@ -1,5 +1,5 @@
-import NekosClient from "nekos.life";
 import { Command, type CommandContext, Declare, Options, createUserOption } from "seyfert";
+import { NekoImageType, getNeko } from "../../utils/functions/nekos";
 
 const options = {
     user: createUserOption({
@@ -20,7 +20,7 @@ export default class HugCommand extends Command {
         const { client, author, guildId, options } = ctx;
         const { user } = options;
 
-        const nekoClient = new NekosClient();
+        const image = await getNeko(NekoImageType.Hug);
 
         const member = await client.members.fetch(guildId!, user.id);
         if (!member)
@@ -30,7 +30,7 @@ export default class HugCommand extends Command {
                         color: client.config.colors.success,
                         description: `**${author.toString()}** I couldn't find that user. But I can give you a hug!`,
                         image: {
-                            url: `${(await nekoClient.hug()).url}`,
+                            url: `${image.url}`,
                         },
                         timestamp: new Date().toISOString(),
                     },
@@ -43,7 +43,7 @@ export default class HugCommand extends Command {
                     color: client.config.colors.success,
                     description: `**${author.toString()}** gave **${member.toString()}** a hug!`,
                     image: {
-                        url: `${(await nekoClient.hug()).url}`,
+                        url: `${image.url}`,
                     },
                     timestamp: new Date().toISOString(),
                 },

@@ -1,5 +1,5 @@
-import NekosClient from "nekos.life";
 import { Command, type CommandContext, Declare, Options, createUserOption } from "seyfert";
+import { NekoImageType, getNeko } from "../../utils/functions/nekos";
 
 const options = {
     user: createUserOption({
@@ -21,7 +21,7 @@ export default class KissCommand extends Command {
         const { client, author, guildId, options } = ctx;
         const { user } = options;
 
-        const nekoClient = new NekosClient();
+        const image = await getNeko(NekoImageType.Kiss);
 
         const member = await client.members.fetch(guildId!, user.id);
         if (!member)
@@ -60,7 +60,7 @@ export default class KissCommand extends Command {
                     color: client.config.colors.success,
                     description: `**${author.toString()}** kissed **${member.toString()}**!`,
                     image: {
-                        url: `${(await nekoClient.kiss()).url}`,
+                        url: `${image.url}`,
                     },
                     timestamp: new Date().toISOString(),
                 },
