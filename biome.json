@@ -21,7 +21,8 @@
                 "useBlockStatements": "off",
                 "useFilenamingConvention": "off",
                 "useNamingConvention": "off",
-                "useSingleCaseStatement": "off"
+                "useSingleCaseStatement": "off",
+                "noParameterProperties": "off"
             },
             "complexity": {
                 "noBannedTypes": "off",

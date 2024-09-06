@@ -9,8 +9,13 @@ export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, 
 
     if (!voice) {
         await context.editOrReply({
-            content: "❌ You need to be in a voice channel to use this command!",
             flags: MessageFlags.Ephemeral,
+            embeds: [
+                {
+                    color: client.config.colors.error,
+                    description: `${client.config.emojis.error} You need to be in a voice channel to use this command!`,
+                },
+            ],
         });
 
         return pass();
@@ -18,8 +23,13 @@ export const checkVoiceChannel = createMiddleware<void>(async ({ context, next, 
 
     if (botChannel && voice.channelId !== botChannel.id) {
         await context.editOrReply({
-            content: `❌ You need to be in the same voice channel as me (${botChannel}) to use this command!`,
             flags: MessageFlags.Ephemeral,
+            embeds: [
+                {
+                    color: client.config.colors.error,
+                    description: `${client.config.emojis.error} You need to be in the same voice channel as me to use this command!\n\nYou are in: <#${voice.channelId}>\nI am in: <#${botChannel.id}>`,
+                },
+            ],
         });
 
         return pass();

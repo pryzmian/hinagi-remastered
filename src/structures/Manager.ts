@@ -7,7 +7,6 @@ import { autoPlayFunction } from "../utils/functions/autoplay";
 export class Manager extends LavalinkManager {
     readonly handler: Handler;
 
-    // biome-ignore lint/style/noParameterProperties: <explanation>
     constructor(readonly client: UsingClient) {
         super({
             nodes: client.config.nodes,

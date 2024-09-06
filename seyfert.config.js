@@ -9,7 +9,7 @@ const isDev = process.argv.includes("--dev");
 const output = isWindows && isDev ? "src" : "dist";
 
 module.exports = config.bot({
-    debug: true,
+    debug: isDev,
     token: process.env.DISCORD_BOT_TOKEN ?? "",
     applicationId: process.env.DISCORD_APPLICATION_ID ?? "",
     intents: [

@@ -9,7 +9,6 @@ const isDev = process.argv.includes("--dev");
 const output = isWindows && isDev ? "src" : "dist";
 
 export class Handler extends BaseHandler {
-    // biome-ignore lint/style/noParameterProperties: biome truco
     constructor(private client: UsingClient) {
         super(client.logger);
     }

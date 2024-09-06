@@ -34,19 +34,20 @@
         }
     ],
     "dependencies": {
-        "@google/generative-ai": "0.3.1",
+        "@prisma/client": "^5.19.1",
         "dotenv": "16.4.5",
+        "iovalkey": "^0.1.0",
         "lavalink-client": "github:tomato6966/lavalink-client",
-        "mongoose": "8.2.4",
         "nekos.life": "3.0.0",
-        "seyfert": "https://pkg.pr.new/tiramisulabs/seyfert@0cef3a9",
+        "seyfert": "github:tiramisulabs/seyfert",
         "yunaforseyfert": "github:sagiriIkeda/yunaforseyfert"
     },
     "devDependencies": {
         "@biomejs/biome": "^1.8.3",
-        "@types/node": "20.11.30",
+        "@types/node": "^22.5.4",
         "husky": "^9.1.5",
         "lint-staged": "^15.2.10",
+        "prisma": "^5.19.1",
         "tsx": "^4.19.0",
         "typescript": "5.4.3"
     }

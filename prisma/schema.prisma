@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  guildId  String  @unique
+  config   Config? @relation(fields: [configId], references: [id], onDelete: Cascade)
+  configId String? @db.ObjectId
+}
+
+model Config {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  Guild          Guild[]
+  requestChannel String?
+  prefix         String?   @default("h!")
+  language       String?   @default("en_US")
+  updatedAt      DateTime  @updatedAt @db.Timestamp()
+  createdAt      DateTime  @default(now()) @db.Timestamp()
+}
+
+model User {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  playlists Playlist[]
+  updatedAt DateTime   @updatedAt @db.Timestamp()
+  createdAt DateTime   @default(now()) @db.Timestamp()
+}
+
+model Playlist {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  thumbnail   String?
+  description String?
+  tags        String[] // Adding tags for organization (e.g. "Rock", "Pop", "Jazz")
+  tracks      Json[]
+  createdBy   User?    @relation(fields: [createdById], references: [id])
+  createdById String?  @db.ObjectId
+  updatedAt   DateTime @updatedAt @db.Timestamp()
+  createdAt   DateTime @default(now()) @db.Timestamp()
+}

@@ -9,7 +9,7 @@ import { Configuration } from "../config";
 import { HinagiMiddlewares } from "../middlewares";
 import { Manager } from "./Manager";
 
-import getCommandProps from "../utils/functions/getCommandProps";
+import { Database } from "./Database";
 
 const RANDOM_RESPONSES = [
     "Beep boop! Doing the thing...",
@@ -24,6 +24,7 @@ const RANDOM_RESPONSES = [
 
 export class HinagiClient extends Client<true> {
     readonly manager: Manager;
+    readonly database: Database;
     readonly config: HinagiConfig = Configuration;
 
     constructor() {
@@ -33,7 +34,10 @@ export class HinagiClient extends Client<true> {
             },
             commands: {
                 reply: () => true,
-                prefix: () => this.config.prefixes,
+                prefix: async (message) => {
+                    const guildPrefix = await this.database.getPrefix(message.guildId!);
+                    return [guildPrefix, this.config.defaultPrefix, ...this.config.prefixes];
+                },
                 deferReplyResponse: ({ client }) => ({
                     embeds: [
                         {
@@ -47,19 +51,15 @@ export class HinagiClient extends Client<true> {
                         const { client } = context;
                         const errorString = Object.entries(metadata)
                             .filter((_) => _[1].failed)
-                            .map((error) => `❌ The option \`${error[0]}\` is required but got \`undefined\`!`)
+                            .map((error) => `\`${error[0]}\`: ${error[1].value}`)
                             .join("\n");
-                        const commandProps = getCommandProps(context);
 
                         await context.editOrReply({
                             embeds: [
                                 {
-                                    color: client.config.colors.warning,
-                                    title: "Invalid command usage!",
-                                    description: `${errorString}\n\n${commandProps}`,
-                                    footer: {
-                                        text: "Note: <> means required, [] means optional.",
-                                    },
+                                    color: client.config.colors.error,
+                                    title: "Error parsing options",
+                                    description: `${client.config.emojis.error} ${errorString}`,
                                     timestamp: new Date().toISOString(),
                                 },
                             ],
@@ -70,6 +70,7 @@ export class HinagiClient extends Client<true> {
         });
 
         this.manager = new Manager(this);
+        this.database = new Database(this);
         this.run();
     }
 

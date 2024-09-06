@@ -1,4 +1,3 @@
-import type { Track } from "lavalink-client/dist/types";
 import type { ComponentContext } from "seyfert";
 import { ComponentCommand, Middlewares } from "seyfert";
 
@@ -15,7 +14,7 @@ export default class PauseButton extends ComponentCommand {
         const player = client.manager.getPlayer(guildId!);
 
         await ctx.interaction.deferUpdate();
-        await player.queue.add((await player.queue.shiftPrevious()) as Track, 0);
+        await player.queue.add(await player.queue.shiftPrevious(), 0);
         await player.skip();
     }
 }

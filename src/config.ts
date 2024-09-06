@@ -1,6 +1,9 @@
 import type { LavalinkNodeOptions } from "lavalink-client";
 
 export interface HinagiConfig {
+    prefixes: string[];
+    defaultLanguage: string;
+    defaultPrefix: string;
     colors: {
         error: number;
         success: number;
@@ -8,7 +11,6 @@ export interface HinagiConfig {
         info: number;
         transparent: number;
     };
-    prefixes: string[];
     emojis: {
         error: string;
         success: string;
@@ -24,6 +26,9 @@ export interface HinagiConfig {
 }
 
 export const Configuration: HinagiConfig = {
+    defaultLanguage: "en_US",
+    defaultPrefix: "h!",
+    prefixes: ["hinagi", "hina"],
     colors: {
         error: 0xf44336,
         success: 0x2196f3,
@@ -31,7 +36,6 @@ export const Configuration: HinagiConfig = {
         info: 0xffa500,
         transparent: 0x2f3136, // not really transparent, but it's the color of the dark theme background
     },
-    prefixes: ["hina", "h!", "hinagi"],
     emojis: {
         error: "<:error:1222874433728024596>",
         success: "<:check:1222874435019735040>",
